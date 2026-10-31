@@ -1,0 +1,1 @@
+Repository placeholders: base_repo.py, decision_repo.py, scenario_repo.py, impact_repo.py, audit_repo.py. Engine code uses SQLite directly to keep this prototype dependency-free.

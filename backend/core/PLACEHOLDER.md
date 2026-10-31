@@ -1,0 +1,1 @@
+Core placeholders: config.py, constants.py, exceptions.py, logger.py, security.py. Not implemented in this backend-only first glance.

@@ -1,0 +1,1 @@
+API route placeholders: decision.py, scenario.py, impact.py, briefing.py, approval.py. HTTP/API implementation intentionally omitted.

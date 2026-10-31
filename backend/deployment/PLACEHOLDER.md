@@ -1,0 +1,1 @@
+Deployment placeholders: docker-compose.yml, deploy_lambda.sh, requirements.txt. AWS deployment is not configured.

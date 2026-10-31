@@ -1,0 +1,1 @@
+Model/entity placeholders: decision.py, scenario.py, impact.py, briefing.py, audit.py, user.py. SQL tables are defined in database/schema.sql.

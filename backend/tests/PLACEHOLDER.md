@@ -1,0 +1,1 @@
+Test directory placeholder. Automated test suite not included in this first-glance prototype.
