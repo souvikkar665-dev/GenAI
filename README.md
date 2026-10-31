@@ -1,20 +1,43 @@
-# The Counterfactual Boardroom — backend prototype
+# The Counterfactual Boardroom
 
-A local, backend-first prototype of the supplied architecture. Implemented code is limited to the six backend engines under `backend/services/` and SQLite schema/seed SQL under `backend/database/`. Other architecture listings are represented by folders and `PLACEHOLDER.md` files; the frontend is intentionally a placeholder.
+A practical executive decision-support prototype for structured decisions, counterfactual scenario comparison, impact mapping, briefing, and human approval. The interface follows the supplied boardroom architecture while presenting a quieter enterprise dashboard suited to real operations work.
 
-## Included
-- Decision, scenario, impact, briefing, approval, and analytics engines (Python, SQLite).
-- Relational schema, constraints, indexes, audit history, versioned scenarios/results, and demo seed data.
-- Small runnable demo entry point: `backend/demo.py`.
+## Scope and technology boundary
 
-## Run
-Requires Python 3.10+ and no third-party packages.
+Application code is limited to **HTML, CSS, JavaScript, Python, and SQL**, with **PostgreSQL** as the only database target. The initial PDF proposed SQLite; the later project instruction explicitly replaces it with PostgreSQL. There is no React, TypeScript, Node application server, or SQLite code. The local out-of-box demo keeps sample records in process memory and creates no database file. PostgreSQL persistence activates only when `BOARDROOM_POSTGRES_DSN` is configured.
 
-```bash
-cd backend
-python demo.py
+## Run the website
+
+Requires Python 3.10 or later. No packages are needed for the in-memory demo.
+
+```text
+python3 main.py
 ```
-The demo creates `database/boardroom.db` and prints a sample portfolio summary. Remove that generated file to reset the demo database. The SQL database itself is initialized from `database/schema.sql` and `database/seed.sql`.
 
-## Prototype boundaries
-This is an educational/local prototype, not production AWS deployment. Bedrock and SageMaker calls are not made; model numbers must be explicitly provided to the scenario engine. The sample response is clearly labeled as a prototype estimate. Authentication, tenant security, API Gateway/Lambda deployment, secrets, real model integration, and production migration/backup procedures remain unimplemented. Human approval is explicit and role-checked in the approval engine.
+Open the local service on port 3000. The preview uses port 3000 and serves the frontend and JSON API from one Python process. The Home dashboard and all navigation work in the demo mode. Demo figures are synthetic and clearly labeled; creating a decision or scenario is interactive, but the app never fabricates a forecast for a new branch.
+
+## Enable PostgreSQL persistence
+
+1. Create a PostgreSQL database and use an appropriately restricted database role.
+2. Install the PostgreSQL Python driver with `python3 -m pip install -r backend/requirements.txt`.
+3. Set `BOARDROOM_POSTGRES_DSN` in the process environment; do not put a real connection string in source or the ZIP.
+4. Apply `backend/database/schema.sql`, then `backend/database/seed.sql`, using your approved PostgreSQL tooling. `python3 backend/scripts/initialize_database.py` is also provided for an explicitly configured connection.
+5. Start with `python3 main.py`.
+
+The seed is repeatable and contains synthetic demonstration ranges, not forecasts from a trained model. Do not use it to make a live business decision. Human-note versions, scenario and decision writes, and CSV exports work in memory demo mode; all demo changes reset when the Python process restarts. The API refuses briefing writes and final approval actions in PostgreSQL mode until a trusted server-side identity provider has been attached. The demo role selector is intentionally only a UI demonstration and is not production authentication.
+
+## Product workflow
+
+- **Overview** summarizes portfolio activity, confidence, approvals, freshness, assumptions, and measurements due.
+- **Decision Studio** captures the original question, objective, constraints, time horizon, business unit, and metrics before simulation.
+- **Scenario Lab** compares a baseline with counterfactual branches and exposes sample ranges, source/model lineage, confidence, and assumptions.
+- **Impact Map** relates potential consequences to affected teams and measurements; causal links are hypotheses, not proof.
+- **Briefing Room** distinguishes observed inputs, modeled estimates, assumptions, and human judgment.
+- **Approvals** enforces a human approver in the demo and appends activity. PostgreSQL final approval remains locked until server-authenticated roles are connected.
+- **Audit trail** shows retained activity rather than overwriting previous model runs.
+
+## Backend and AWS boundaries
+
+The Python service validates inputs before persistence and adapter calls. PostgreSQL SQL stores decisions, constraints, scenarios, variables, assumptions, model runs, predictions, impacts, briefing versions, approvals, measurement plans, jobs, and audit events. Prediction records require numeric values, bounds, confidence, model version, and data snapshot; unavailable metrics stay unavailable.
+
+`backend/integrations/` contains fail-closed Python seams for Amazon Bedrock, SageMaker AI, S3, and Step Functions/Lambda. They do not make cloud calls. Job state and idempotency fields are schema/adapter scaffolding; the API does not start asynchronous AWS work until that integration is attached. Impact refresh reloads saved records rather than recalculating estimates. Attach API Gateway, AWS Lambda, Bedrock, SageMaker AI, S3, Step Functions, IAM, KMS, Secrets Manager, CloudWatch, and CloudTrail later. Keep credentials in managed runtime secrets. This package is an educational prototype, not a production deployment.
