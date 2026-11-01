@@ -16,49 +16,242 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Frightmare Demo Spooky Global Typography -->
+  <!-- The Halloween Spooky Global Typography -->
   <style>
     @font-face {
+      font-family: 'The Halloween';
+      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('The Halloween - Personal Use.ttf') format('truetype'),
+           url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TheHalloween';
+      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('The Halloween - Personal Use.ttf') format('truetype'),
+           url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'the halloween';
+      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('The Halloween - Personal Use.ttf') format('truetype'),
+           url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'The Halloween - Personal Use';
+      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('The Halloween - Personal Use.ttf') format('truetype'),
+           url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
       font-family: 'Frightmare Demo';
-      src: url('Frightmare-Demo.otf') format('opentype'),
-           url('/frontend/Frightmare-Demo.otf') format('opentype');
+      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('The Halloween - Personal Use.ttf') format('truetype'),
+           url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: 'FrightmareDemo';
-      src: url('Frightmare-Demo.otf') format('opentype'),
-           url('/frontend/Frightmare-Demo.otf') format('opentype');
+      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('The Halloween - Personal Use.ttf') format('truetype'),
+           url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
+           url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
       font-display: swap;
     }
 
-    /* Universal Frightmare Demo Application */
-    html, body, button, input, select, textarea,
+    /* Universal The Halloween Application & Maximum Breathable Spacing */
+    *, *::before, *::after {
+      letter-spacing: 0.18em;
+      word-spacing: 0.45em;
+    }
+
+    html, body {
+      font-family: 'The Halloween', 'TheHalloween', 'the halloween', 'Cinzel', 'Inter', sans-serif !important;
+      line-height: 2.45 !important;
+      letter-spacing: 0.18em !important;
+      word-spacing: 0.45em !important;
+    }
+
+    p, .readiness-subtext, .hero-subtitle, .exec-block-content, .readiness-footer-note {
+      line-height: 2.65 !important;
+      letter-spacing: 0.16em !important;
+      word-spacing: 0.45em !important;
+    }
+
+    .source-info {
+      gap: 14px !important;
+    }
+
+    .source-name {
+      line-height: 1.95 !important;
+      letter-spacing: 0.22em !important;
+      word-spacing: 0.48em !important;
+      margin-bottom: 6px !important;
+    }
+
+    .source-freshness {
+      line-height: 2.2 !important;
+      letter-spacing: 0.16em !important;
+      word-spacing: 0.42em !important;
+    }
+
+    .source-item {
+      padding: 24px 0 !important;
+      gap: 20px !important;
+    }
+
+    .readiness-header {
+      line-height: 1.8 !important;
+      letter-spacing: 0.24em !important;
+      word-spacing: 0.45em !important;
+      margin-bottom: 18px !important;
+    }
+
+    .readiness-subtext {
+      line-height: 2.6 !important;
+      letter-spacing: 0.16em !important;
+      word-spacing: 0.42em !important;
+      margin-bottom: 30px !important;
+    }
+
+    .readiness-footer-note {
+      line-height: 2.75 !important;
+      letter-spacing: 0.17em !important;
+      word-spacing: 0.45em !important;
+      margin-top: 34px !important;
+      padding-top: 26px !important;
+    }
+
     h1, h2, h3, h4, h5, h6,
+    .decision-title-text,
+    .queue-title,
+    .preview-card-title,
+    .preview-sidebar-header {
+      font-family: 'The Halloween', 'TheHalloween', 'the halloween', 'Cinzel', serif !important;
+      letter-spacing: 0.22em !important;
+      word-spacing: 0.45em !important;
+      line-height: 1.65 !important;
+    }
+
+    /* Main Top Headings of Each 5 Sections - Balanced Sentence & Line Spacing */
     .hero-title-cinzel,
+    #home-heading,
+    .hero-title-dual,
+    #studio-heading,
+    #lab-heading,
+    #impact-heading,
+    #briefing-heading {
+      font-family: 'The Halloween', 'TheHalloween', 'the halloween', 'Cinzel', serif !important;
+      line-height: 1.35 !important;
+      letter-spacing: 0.18em !important;
+      word-spacing: 0.35em !important;
+      margin-bottom: 20px !important;
+    }
+
+    .hero-title-cinzel span {
+      display: block !important;
+      line-height: 1.32 !important;
+      margin-bottom: 10px !important;
+    }
+
+    .hero-title-cinzel span:last-child {
+      margin-bottom: 0px !important;
+    }
+
+    .hero-title-solid {
+      display: block !important;
+      line-height: 1.32 !important;
+      margin-bottom: 10px !important;
+      letter-spacing: 0.18em !important;
+      word-spacing: 0.35em !important;
+    }
+
+    .hero-title-outline {
+      display: block !important;
+      line-height: 1.32 !important;
+      margin-top: 0px !important;
+      letter-spacing: 0.2em !important;
+      word-spacing: 0.35em !important;
+      -webkit-text-stroke: 1px rgba(232, 231, 223, 0.8) !important;
+    }
+
+    .hero-subtitle {
+      line-height: 2.5 !important;
+      letter-spacing: 0.16em !important;
+      word-spacing: 0.42em !important;
+      margin-top: 20px !important;
+      margin-bottom: 30px !important;
+    }
+
     .gothic-nav-link,
     .nav-link,
     .btn,
     .btn-hero-dark,
     .hero-metric-tile-val,
     .hero-metric-tile-label,
-    .preview-card-title,
-    .preview-sidebar-header,
     .preview-reset-btn,
     .splus-bottom-bar,
     .journey-step-item,
     .pulse-vortex-title,
     .pulse-vortex-status,
-    .decision-title-text,
-    .queue-title,
     .metric-number,
     .metric-label,
     .status-pill,
-    .eyebrow-tag {
-      font-family: 'Frightmare Demo', 'FrightmareDemo', 'Cinzel', 'Inter', sans-serif !important;
+    .eyebrow-tag,
+    .briefing-rec-badge {
+      font-family: 'The Halloween', 'TheHalloween', 'the halloween', 'Cinzel', sans-serif !important;
+      letter-spacing: 0.18em !important;
+      word-spacing: 0.36em !important;
+      line-height: 1.6 !important;
+    }
+
+    .exec-block-textarea,
+    textarea,
+    input,
+    select {
+      letter-spacing: 0.16em !important;
+      word-spacing: 0.42em !important;
+      line-height: 2.45 !important;
+    }
+
+    .exec-block-textarea {
+      padding: 14px 16px !important;
+      min-height: 120px !important;
+    }
+
+    .evidence-item {
+      gap: 16px !important;
+      align-items: flex-start !important;
+      line-height: 2.2 !important;
+      letter-spacing: 0.15em !important;
+      word-spacing: 0.4em !important;
+      margin-bottom: 14px !important;
+    }
+
+    .evidence-item label {
+      line-height: 2.2 !important;
+      letter-spacing: 0.15em !important;
+      word-spacing: 0.4em !important;
     }
   </style>
 </head>
@@ -742,8 +935,8 @@
                   <strong>Uncertainty Note:</strong> <span id="dataUncertaintyText"></span>
                 </div>
 
-                <div
-                  style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border-subtle); font-size:11.5px; color:var(--smoke);">
+                <div class="readiness-footer-note"
+                  style="margin-top:34px; padding-top:26px; border-top:1px solid var(--border-subtle); font-size:12px; color:var(--smoke); line-height:2.75 !important; letter-spacing:0.17em !important; word-spacing:0.45em !important;">
                   Excluding sources preserves model independence but widens the confidence interval bands in Scenario
                   Lab.
                 </div>
@@ -1294,12 +1487,12 @@
                   <div
                     style="font-size:11px; text-transform:uppercase; letter-spacing:0.14em; color:var(--smoke); font-weight:700;">
                     Active Executive Brief</div>
-                  <div style="font-size:20px; font-weight:700; color:var(--bone-white); margin:4px 0;"
+                  <div style="font-size:22px; font-weight:700; color:var(--bone-white); margin:12px 0 16px 0; line-height:1.45; letter-spacing:0.14em; word-spacing:0.25em;"
                     id="briefingDecisionTitle">
                     Regional launch timing — a controlled two-week shift
                   </div>
                   <div
-                    style="display:flex; align-items:center; gap:12px; font-size:12px; color:var(--smoke); flex-wrap:wrap;">
+                    style="display:flex; align-items:center; gap:16px; font-size:12.5px; color:var(--smoke); flex-wrap:wrap; line-height:1.8; letter-spacing:0.08em; word-spacing:0.2em;">
                     <span>Scenario: <strong style="color:var(--bone-white);">14-day delay</strong></span>
                     <span>·</span>
                     <span class="briefing-rec-badge">Recommended for review</span>
