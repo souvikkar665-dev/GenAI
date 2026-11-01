@@ -1,1 +1,0 @@
-Frontend placeholder: the supplied architecture specifies a web dashboard/UI. No frontend code is included in this backend-first prototype.
