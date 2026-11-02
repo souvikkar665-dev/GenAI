@@ -536,7 +536,7 @@
     validateStudioCards();
   }
 
-  function renderDataReadinessList() {
+function renderDataReadinessList() {
     const container = document.getElementById('sourcesList');
     if (!container) return;
 
@@ -544,16 +544,17 @@
     appState.dataSources.forEach(src => {
       const isExcluded = appState.excludedSources.includes(src.id);
       html += `
-        <div class="source-item">
+        <div class="source-item" onclick="window.appToggleSource('${src.id}')" style="cursor:pointer;">
           <div class="source-info">
-            <span class="source-name" style="${isExcluded ? 'text-decoration:line-through; opacity:0.5;' : ''}">${src.name}</span>
+            <span class="source-name" style="${isExcluded ? 'text-decoration:line-through; opacity:0.4;' : ''}">
+              ${src.name}
+            </span>
             <span class="source-freshness">${src.freshness} · <span style="color:var(--smoke);">${src.quality}</span></span>
           </div>
           <div>
-            <label style="display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--smoke); cursor:pointer;">
-              <input type="checkbox" ${isExcluded ? '' : 'checked'} onchange="window.appToggleSource('${src.id}')" style="accent-color:var(--spectral-lime);">
-              <span>${isExcluded ? 'Excluded' : 'Active'}</span>
-            </label>
+            <span class="soul-flame-badge ${isExcluded ? 'excluded' : 'active'}">
+              ${isExcluded ? '✕ Excluded' : 'Active'}
+            </span>
           </div>
         </div>
       `;
@@ -1354,6 +1355,21 @@ function renderRankedTable() {
   // ========================================================================
   // 11. EVENT LISTENERS SETUP
   // ========================================================================
+  
+  // ═══════════════════════════════════════════════════════════════════════════
+  // S+++++ ELDRITCH ABYSS NEXUS INTERACTION
+  // ═══════════════════════════════════════════════════════════════════════════
+  window.appTriggerAbyssPulse = () => {
+    const nexus = document.getElementById('demonAbyssNexus');
+    if (nexus) {
+      nexus.style.filter = 'drop-shadow(0 0 50px rgba(255, 51, 102, 0.9))';
+      setTimeout(() => {
+        nexus.style.filter = '';
+      }, 700);
+    }
+    showToast('⛧ The Counterfactual Abyss stirs... Demonic variance amplified!', 'violet');
+  };
+
   function setupEventListeners() {
     window.addEventListener('hashchange', () => handleRoute(window.location.hash));
 
@@ -1738,6 +1754,7 @@ function renderRankedTable() {
   async function init() {
     setupEventListeners();
     await ApiClient.loadAllInitialData();
+    renderStudioSection();
     renderLabSection();
     renderImpactSection();
     handleRoute(window.location.hash);

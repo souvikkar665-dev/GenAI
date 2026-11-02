@@ -1196,114 +1196,375 @@ body::before {
   transform: translateX(2px);
 }
 
+
 /* ==========================================================================
-   SECTION 02: DECISION STUDIO (FRAME THE DECISION)
+   S+++++ 7,000,000$ TIER HOME HERO & ELDRITCH ABYSS NEXUS
+   Haunted Demon Hand Summoning Sigil, Dripping Blood, and Beating Eye Core
    ========================================================================== */
+
+/* ── Center Spooky Element: Eldritch Abyss Nexus ── */
+.demon-hand-abyss-nexus {
+  position: absolute;
+  left: 54%;
+  top: 56%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.abyss-sigil-wrap {
+  width: 270px;
+  height: 270px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 28px rgba(167, 107, 255, 0.45));
+}
+
+.abyss-sigil-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Outer Runic Ring Rotation */
+.sigil-ring-outer {
+  transform-origin: 160px 160px;
+  animation: sigilSpinOuter 38s linear infinite;
+}
+
+@keyframes sigilSpinOuter {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Middle Star Ring Counter-Rotation */
+.sigil-ring-middle {
+  transform-origin: 160px 160px;
+  animation: sigilSpinMiddle 26s linear infinite reverse;
+}
+
+@keyframes sigilSpinMiddle {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Inner Pentacle Breathing */
+.sigil-ring-inner {
+  transform-origin: 160px 160px;
+  animation: sigilInnerBreathe 4.5s ease-in-out infinite;
+}
+
+@keyframes sigilInnerBreathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+/* Beating Demon Eye Core */
+.abyss-heartbeat-node {
+  animation: demonHeartPulse 1.8s cubic-bezier(0.21, 0.61, 0.35, 1) infinite;
+  transform-origin: 160px 160px;
+}
+
+@keyframes demonHeartPulse {
+  0% { transform: scale(0.92); opacity: 0.85; }
+  15% { transform: scale(1.18); opacity: 1; }
+  30% { transform: scale(1.0); opacity: 0.9; }
+  45% { transform: scale(1.24); opacity: 1; }
+  70%, 100% { transform: scale(0.92); opacity: 0.85; }
+}
+
+.demon-pupil {
+  animation: pupilDilate 3.6s ease-in-out infinite;
+  transform-origin: 160px 160px;
+}
+
+@keyframes pupilDilate {
+  0%, 100% { transform: scaleY(1) scaleX(1); }
+  50% { transform: scaleY(0.7) scaleX(1.4); }
+}
+
+/* Claw Blood Drips Falling from Demon Hand */
+.drip-drop {
+  animation: bloodDrip 2.4s ease-in infinite;
+}
+
+.drop-1 { animation-delay: 0.1s; }
+.drop-2 { animation-delay: 0.9s; }
+.drop-3 { animation-delay: 0.4s; }
+.drop-4 { animation-delay: 1.5s; }
+.drop-5 { animation-delay: 1.1s; }
+
+@keyframes bloodDrip {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  70% { opacity: 0.9; }
+  100% { transform: translateY(120px); opacity: 0; }
+}
+
+/* Interactive Commune Badge */
+.abyss-commune-badge {
+  pointer-events: auto;
+  margin-top: -6px;
+  background: rgba(11, 16, 19, 0.88);
+  border: 1px solid rgba(167, 107, 255, 0.45);
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-white);
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), 0 0 16px rgba(167, 107, 255, 0.25);
+  backdrop-filter: blur(12px);
+  user-select: none;
+}
+
+.abyss-commune-badge:hover {
+  transform: translateY(-2px) scale(1.04);
+  border-color: rgba(255, 51, 102, 0.7);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7), 0 0 24px rgba(255, 51, 102, 0.5);
+  color: #fff;
+}
+
+.abyss-eye-pulsing {
+  color: var(--electric-violet);
+  font-size: 12px;
+  text-shadow: 0 0 10px var(--electric-violet);
+  animation: eyeFlicker 2s ease-in-out infinite;
+}
+
+@keyframes eyeFlicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.abyss-label {
+  color: var(--bone-white);
+  font-weight: 800;
+}
+
+.abyss-sep {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.abyss-val {
+  color: var(--spectral-lime);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 8px rgba(182, 217, 58, 0.4);
+}
+
+/* Equalizer Bars Dynamic Real-Time Audio Telemetry */
+.equalizer-bars span {
+  animation: eqBounce 1.4s ease-in-out infinite alternate;
+}
+.equalizer-bars span:nth-child(1) { animation-delay: 0.1s; animation-duration: 0.8s; }
+.equalizer-bars span:nth-child(2) { animation-delay: 0.3s; animation-duration: 1.1s; }
+.equalizer-bars span:nth-child(3) { animation-delay: 0.5s; animation-duration: 0.9s; }
+.equalizer-bars span:nth-child(4) { animation-delay: 0.2s; animation-duration: 1.3s; }
+.equalizer-bars span:nth-child(5) { animation-delay: 0.6s; animation-duration: 0.7s; }
+.equalizer-bars span:nth-child(6) { animation-delay: 0.4s; animation-duration: 1.0s; }
+.equalizer-bars span:nth-child(7) { animation-delay: 0.7s; animation-duration: 1.2s; }
+.equalizer-bars span:nth-child(8) { animation-delay: 0.2s; animation-duration: 0.95s; }
+
+@keyframes eqBounce {
+  0% { transform: scaleY(0.35); }
+  100% { transform: scaleY(1.35); }
+}
+
+/* Hide splus-bottom-bar if still referenced */
+.splus-bottom-bar {
+  display: none !important;
+}
+
+/* ==========================================================================
+   SECTION 02: DECISION STUDIO — S+++ CONJURING EXTREME HORROR EDITION
+   Haunted Obsidian Altar, Possessed Grimoire Pillars, Soul-Flame Telemetry,
+   and Cursed Ritual Portal to Scenario Lab
+   ========================================================================== */
+
 .studio-layout {
   display: grid;
   grid-template-columns: 8fr 4fr;
-  gap: 24px;
+  gap: 26px;
+  align-items: start;
 }
 
+/* ── Primary Question Altar: Haunted Obsidian Slab ── */
 .boardroom-prompt-box {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(
+    175deg,
+    rgba(18, 43, 45, 0.78) 0%,
+    rgba(11, 16, 19, 0.94) 100%
+  );
+  border: 1px solid rgba(167, 107, 255, 0.22);
   border-radius: var(--radius-md);
-  padding: 24px;
+  padding: 26px 28px 22px;
   margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(167, 107, 255, 0.25);
+  backdrop-filter: blur(14px);
+}
+
+.boardroom-prompt-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(167, 107, 255, 0.4) 25%,
+    rgba(167, 107, 255, 0.9) 50%,
+    rgba(167, 107, 255, 0.4) 75%,
+    transparent 100%
+  );
+  animation: altarLinePulse 4s ease-in-out infinite;
+}
+
+@keyframes altarLinePulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
 .boardroom-prompt-title {
   font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--smoke);
+  letter-spacing: 0.16em;
+  color: var(--bone-white);
   font-weight: 700;
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 0 0 16px rgba(232, 231, 223, 0.15);
+}
+
+.boardroom-prompt-title::before {
+  content: '⛧';
+  font-size: 14px;
+  color: var(--electric-violet);
+  text-shadow: 0 0 12px var(--electric-violet);
 }
 
 .boardroom-textarea {
   width: 100%;
-  min-height: 90px;
-  background: var(--deep-teal);
-  border: 1px solid var(--border-subtle);
+  min-height: 96px;
+  background: rgba(11, 16, 19, 0.75);
+  border: 1px solid rgba(167, 107, 255, 0.25);
   border-radius: var(--radius-sm);
-  padding: 16px;
-  font-family: var(--font-sans);
+  padding: 16px 18px;
+  font-family: var(--font-horror), var(--font-sans);
   font-size: 16px;
   color: var(--bone-white);
+  line-height: 1.5;
   resize: vertical;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.04em;
 }
 
 .boardroom-textarea:focus {
   outline: none;
-  border-color: var(--border-violet);
-  box-shadow: 0 0 16px var(--glow-violet);
+  border-color: rgba(167, 107, 255, 0.7);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(167, 107, 255, 0.35),
+    0 0 4px rgba(167, 107, 255, 0.8);
+  background: rgba(14, 22, 26, 0.9);
 }
 
+/* ── Talisman Quick Start Chips ── */
 .quick-examples {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .quick-example-chip {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(11, 16, 19, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: var(--radius-pill);
   font-size: 11px;
+  font-weight: 600;
   color: var(--smoke);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.26s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.02em;
 }
 
 .quick-example-chip:hover {
-  background: rgba(167, 107, 255, 0.12);
-  border-color: var(--border-violet);
+  background: rgba(167, 107, 255, 0.16);
+  border-color: rgba(167, 107, 255, 0.45);
   color: var(--bone-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 12px rgba(167, 107, 255, 0.2);
 }
 
-/* Extracted Structured Fields */
+/* ── Extracted Structured Fields HUD Ribbon ── */
 .extracted-fields-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  margin-top: 16px;
-  padding: 14px;
-  background: var(--surface-well);
-  border: 1px solid var(--border-subtle);
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: rgba(11, 16, 19, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-sm);
+  position: relative;
 }
 
 .extracted-field-group label {
   display: block;
-  font-size: 10px;
+  font-size: 9.5px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--smoke);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  font-weight: 700;
 }
 
 .extracted-field-input {
   width: 100%;
-  background: rgba(11, 16, 19, 0.8);
-  border: 1px solid var(--border-subtle);
+  background: rgba(18, 43, 45, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
-  padding: 6px 8px;
-  font-size: 12px;
+  padding: 7px 10px;
+  font-size: 11.5px;
   color: var(--bone-white);
+  font-weight: 600;
+  transition: all 0.24s ease;
 }
 
 .extracted-field-input:focus {
   outline: none;
-  border-color: var(--border-violet);
+  border-color: rgba(167, 107, 255, 0.5);
+  box-shadow: 0 0 12px rgba(167, 107, 255, 0.25);
+  background: rgba(28, 62, 62, 0.8);
 }
 
-/* 4 Decision Definition Cards in Sequence */
+/* ── 4 Possessed Grimoire Pillar Cards ── */
 .definition-cards-sequence {
   display: flex;
   flex-direction: column;
@@ -1311,16 +1572,126 @@ body::before {
 }
 
 .def-card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(
+    170deg,
+    rgba(18, 43, 45, 0.75) 0%,
+    rgba(11, 16, 19, 0.90) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
-  padding: 20px;
-  transition: border-color 0.2s ease;
+  padding: 20px 22px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
 }
 
-.def-card.amber-missing {
-  border-color: rgba(242, 140, 56, 0.6);
-  background: rgba(242, 140, 56, 0.03);
+/* Left colored spine indicator */
+.def-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.def-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Specific pillar colors & glow */
+#defCardChange {
+  border-color: rgba(167, 107, 255, 0.2);
+}
+#defCardChange::before {
+  background: var(--electric-violet);
+  box-shadow: 0 0 12px rgba(167, 107, 255, 0.6);
+}
+#defCardChange:hover {
+  border-color: rgba(167, 107, 255, 0.45);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45), 0 0 20px rgba(167, 107, 255, 0.12);
+}
+
+#defCardObjective {
+  border-color: rgba(182, 217, 58, 0.2);
+}
+#defCardObjective::before {
+  background: var(--spectral-lime);
+  box-shadow: 0 0 12px rgba(182, 217, 58, 0.6);
+}
+#defCardObjective:hover {
+  border-color: rgba(182, 217, 58, 0.45);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45), 0 0 20px rgba(182, 217, 58, 0.12);
+}
+
+#defCardConstraints {
+  border-color: rgba(242, 140, 56, 0.2);
+}
+#defCardConstraints::before {
+  background: var(--ember-amber);
+  box-shadow: 0 0 12px rgba(242, 140, 56, 0.6);
+}
+#defCardConstraints:hover {
+  border-color: rgba(242, 140, 56, 0.45);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45), 0 0 20px rgba(242, 140, 56, 0.14);
+}
+
+#defCardHorizon {
+  border-color: rgba(0, 229, 255, 0.2);
+}
+#defCardHorizon::before {
+  background: #00e5ff;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+}
+#defCardHorizon:hover {
+  border-color: rgba(0, 229, 255, 0.45);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45), 0 0 20px rgba(0, 229, 255, 0.12);
+}
+
+/* Elemental Seal Badges */
+.pillar-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.seal-violet {
+  background: rgba(167, 107, 255, 0.18);
+  border: 1px solid rgba(167, 107, 255, 0.5);
+  color: var(--electric-violet);
+  box-shadow: 0 0 12px rgba(167, 107, 255, 0.35);
+}
+
+.seal-lime {
+  background: rgba(182, 217, 58, 0.18);
+  border: 1px solid rgba(182, 217, 58, 0.5);
+  color: var(--spectral-lime);
+  box-shadow: 0 0 12px rgba(182, 217, 58, 0.35);
+}
+
+.seal-amber {
+  background: rgba(242, 140, 56, 0.18);
+  border: 1px solid rgba(242, 140, 56, 0.5);
+  color: var(--ember-amber);
+  box-shadow: 0 0 12px rgba(242, 140, 56, 0.35);
+}
+
+.seal-cyan {
+  background: rgba(0, 229, 255, 0.18);
+  border: 1px solid rgba(0, 229, 255, 0.5);
+  color: #00e5ff;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
 }
 
 .def-card-top {
@@ -1336,76 +1707,202 @@ body::before {
   color: var(--bone-white);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  letter-spacing: 0.03em;
 }
 
 .why-link {
-  font-size: 11px;
+  font-size: 10.5px;
+  font-weight: 600;
   color: var(--smoke);
-  text-decoration: underline;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .why-link:hover {
   color: var(--electric-violet);
+  border-color: rgba(167, 107, 255, 0.45);
+  background: rgba(167, 107, 255, 0.12);
+  box-shadow: 0 0 10px rgba(167, 107, 255, 0.2);
 }
 
 .def-card-desc {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--smoke);
   margin-bottom: 12px;
+  line-height: 1.45;
 }
 
 .def-card-input {
   width: 100%;
-  background: var(--deep-teal);
-  border: 1px solid var(--border-subtle);
+  background: rgba(11, 16, 19, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
-  padding: 10px 12px;
+  padding: 10px 14px;
   font-size: 13px;
+  font-weight: 600;
   color: var(--bone-white);
+  transition: all 0.26s ease;
 }
 
 .def-card-input:focus {
   outline: none;
-  border-color: var(--border-violet);
+  border-color: rgba(167, 107, 255, 0.55);
+  box-shadow: 0 0 16px rgba(167, 107, 255, 0.25);
+  background: rgba(18, 43, 45, 0.8);
 }
 
-/* Right-side Data Readiness Panel - Maximum Breathing Room */
-.data-readiness-panel {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+/* ── Studio Bottom Action Dock ── */
+.studio-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 26px;
+  padding: 18px 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(18, 43, 45, 0.72) 0%,
+    rgba(11, 16, 19, 0.90) 100%
+  );
+  border: 1px solid rgba(167, 107, 255, 0.18);
   border-radius: var(--radius-md);
-  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+.action-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Cursed Ritual Gate Portal CTA */
+.btn-ritual-portal {
+  background: linear-gradient(135deg, #8a4dff 0%, #a76bff 50%, #7338e6 100%);
+  border: 1px solid rgba(232, 231, 223, 0.4);
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 10px 24px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow:
+    0 0 24px rgba(167, 107, 255, 0.5),
+    0 0 48px rgba(167, 107, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  position: relative;
+  overflow: hidden;
+  animation: portalPulse 3s ease-in-out infinite;
+}
+
+@keyframes portalPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(167, 107, 255, 0.45),
+      0 0 40px rgba(167, 107, 255, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 32px rgba(167, 107, 255, 0.75),
+      0 0 60px rgba(167, 107, 255, 0.35),
+      0 0 8px #fff;
+  }
+}
+
+.btn-ritual-portal:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: linear-gradient(135deg, #9b63ff 0%, #b885ff 50%, #834bf0 100%);
+  box-shadow:
+    0 0 36px rgba(167, 107, 255, 0.8),
+    0 0 70px rgba(167, 107, 255, 0.4),
+    0 0 12px #fff;
+}
+
+/* ── Right-Side Data Readiness Panel: Grimoire of Souls ── */
+.data-readiness-panel {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 43, 45, 0.76) 0%,
+    rgba(11, 16, 19, 0.94) 100%
+  );
+  border: 1px solid rgba(167, 107, 255, 0.20);
+  border-radius: var(--radius-md);
+  padding: 26px 24px;
+  position: relative;
+  box-shadow: 0 12px 42px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(14px);
+}
+
+.data-readiness-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(182, 217, 58, 0.4) 30%,
+    rgba(167, 107, 255, 0.5) 60%,
+    transparent 100%
+  );
 }
 
 .readiness-header {
-  font-size: 15px;
+  font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.24em;
-  word-spacing: 0.45em;
+  letter-spacing: 0.18em;
   color: var(--bone-white);
-  font-weight: 700;
-  margin-bottom: 18px;
-  line-height: 1.8;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.readiness-header::before {
+  content: '✦';
+  color: var(--spectral-lime);
+  text-shadow: 0 0 10px var(--spectral-lime);
 }
 
 .readiness-subtext {
-  font-size: 12.5px;
+  font-size: 11.5px;
   color: var(--smoke);
-  margin-bottom: 30px;
-  line-height: 2.6;
-  letter-spacing: 0.16em;
-  word-spacing: 0.42em;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
 }
 
+/* Individual Source Item */
 .source-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-  gap: 20px;
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 14px;
+  border-radius: var(--radius-sm);
+  transition: all 0.24s ease;
+  position: relative;
+}
+
+.source-item:hover {
+  background: rgba(167, 107, 255, 0.06);
 }
 
 .source-item:last-child {
@@ -1415,75 +1912,96 @@ body::before {
 .source-info {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 4px;
   flex: 1;
 }
 
 .source-name {
-  font-size: 14px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--bone-white);
-  line-height: 1.95;
-  letter-spacing: 0.22em;
-  word-spacing: 0.48em;
-  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s ease;
 }
 
 .source-freshness {
-  font-size: 12px;
+  font-size: 10.5px;
   color: var(--smoke);
-  line-height: 2.2;
-  letter-spacing: 0.16em;
-  word-spacing: 0.42em;
+  letter-spacing: 0.02em;
+}
+
+/* Soul-Flame Active Indicator */
+.soul-flame-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.24s ease;
+}
+
+.soul-flame-badge.active {
+  background: rgba(182, 217, 58, 0.14);
+  border: 1px solid rgba(182, 217, 58, 0.45);
+  color: var(--spectral-lime);
+  box-shadow: 0 0 12px rgba(182, 217, 58, 0.25);
+}
+
+.soul-flame-badge.active::before {
+  content: '●';
+  font-size: 8px;
+  color: var(--spectral-lime);
+  animation: soulFlameFlicker 2s ease-in-out infinite;
+}
+
+@keyframes soulFlameFlicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.soul-flame-badge.excluded {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--smoke);
 }
 
 .readiness-footer-note {
-  margin-top: 34px;
-  padding-top: 26px;
-  border-top: 1px solid var(--border-subtle);
-  font-size: 12px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
   color: var(--smoke);
-  line-height: 2.75;
-  letter-spacing: 0.17em;
-  word-spacing: 0.45em;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
 }
 
 .uncertainty-warning-box {
-  margin-top: 18px;
-  padding: 12px;
-  background: rgba(242, 140, 56, 0.09);
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: rgba(242, 140, 56, 0.10);
   border-left: 3px solid var(--ember-amber);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--ember-amber);
+  line-height: 1.45;
+  box-shadow: 0 0 16px rgba(242, 140, 56, 0.12);
 }
 
-/* Studio Bottom Action Bar */
-.studio-action-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 32px;
-  padding: 18px 24px;
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+/* Responsive adjustment for Decision Studio */
+@media (max-width: 1080px) {
+  .studio-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .extracted-fields-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-
-.action-bar-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.missing-explanation-text {
-  font-size: 12px;
-  color: var(--ember-amber);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
 /* ==========================================================================
    SECTION 03: SCENARIO LAB — S+++ CONJURING SÉANCE EDITION
    Haunted ritual chamber, spectral mist, cursed prophecy charts,
