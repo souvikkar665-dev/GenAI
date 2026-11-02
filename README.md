@@ -4,17 +4,8 @@ A practical executive decision-support prototype for structured decisions, count
 
 ## Scope and technology boundary
 
-Application code is limited to **HTML, CSS, JavaScript, Python, and SQL**, with **PostgreSQL** as the only database target. The initial PDF proposed SQLite; the later project instruction explicitly replaces it with PostgreSQL. There is no React, TypeScript, Node application server, or SQLite code. The local out-of-box demo keeps sample records in process memory and creates no database file. PostgreSQL persistence activates only when `BOARDROOM_POSTGRES_DSN` is configured.
+Application code is limited to **HTML, CSS, JavaScript, Python, and SQL**, with **PostgreSQL** as the only database target. There is no React, TypeScript, Node application server, or SQLite code. The local out-of-box demo keeps sample records in process memory and creates no database file. PostgreSQL persistence activates only when `BOARDROOM_POSTGRES_DSN` is configured.
 
-## Run the website
-
-Requires Python 3.10 or later. No packages are needed for the in-memory demo.
-
-```text
-python3 main.py
-```
-
-Open the local service on port 3000. The preview uses port 3000 and serves the frontend and JSON API from one Python process. The Home dashboard and all navigation work in the demo mode. Demo figures are synthetic and clearly labeled; creating a decision or scenario is interactive, but the app never fabricates a forecast for a new branch.
 
 ## Enable PostgreSQL persistence
 
@@ -40,4 +31,3 @@ The seed is repeatable and contains synthetic demonstration ranges, not forecast
 
 The Python service validates inputs before persistence and adapter calls. PostgreSQL SQL stores decisions, constraints, scenarios, variables, assumptions, model runs, predictions, impacts, briefing versions, approvals, measurement plans, jobs, and audit events. Prediction records require numeric values, bounds, confidence, model version, and data snapshot; unavailable metrics stay unavailable.
 
-`backend/integrations/` contains fail-closed Python seams for Amazon Bedrock, SageMaker AI, S3, and Step Functions/Lambda. They do not make cloud calls. Job state and idempotency fields are schema/adapter scaffolding; the API does not start asynchronous AWS work until that integration is attached. Impact refresh reloads saved records rather than recalculating estimates. Attach API Gateway, AWS Lambda, Bedrock, SageMaker AI, S3, Step Functions, IAM, KMS, Secrets Manager, CloudWatch, and CloudTrail later. Keep credentials in managed runtime secrets. This package is an educational prototype, not a production deployment.
