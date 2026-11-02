@@ -212,8 +212,6 @@
     .preview-reset-btn,
     .splus-bottom-bar,
     .journey-step-item,
-    .pulse-vortex-title,
-    .pulse-vortex-status,
     .metric-number,
     .metric-label,
     .status-pill,
@@ -283,61 +281,119 @@
   <div class="mist-overlay" aria-hidden="true"></div>
 
   <!-- ======================================================================
-       S++ TIER GOTHIC-SCULPTED FLOATING NAVBAR (Per Reference Image)
-       Features: Curved base, violet/teal edge glow, skull markers, Decision Pulse vortex
+       THE CONJURING — CURSED ARTIFACT FLOATING NAVBAR
+       Features: Blood drip edge, flickering candlelight, cross markers,
+       fog sweep, scratched aged-glass overlay, demonic pulse medallion
        ====================================================================== -->
-  <header class="gothic-navbar-pod" id="topNavbar">
-    <button class="nav-hamburger-btn" id="navHamburgerBtn" title="Menu / Quick Navigation" aria-label="Toggle Navigation Menu">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
+  <!-- ======================================================================
+       THE CONJURING — SCULPTED CURSED ARTIFACT NAVBAR
+       Exact silhouette per user drawing:
+       - Flat sleek main bar (58px) with blood drips under nav links
+       - Seamless swoop bridge connecting to deep (88px) Decision Pulse cradle
+       - Anatomical cardiac heartbeat pulse with shockwave ripples & flaring glow
+       ====================================================================== -->
+  <header class="gothic-navbar-pod conjuring-navbar" id="topNavbar">
 
-    <!-- 5 Dedicated Route Navigation Items with Skull Icons -->
-    <nav aria-label="Gothic Main Navigation">
-      <ul class="gothic-nav-links" id="navbarDestinations">
-        <li>
-          <a href="#home" class="gothic-nav-link nav-link active" data-route="home" id="nav-home">
-            <span>01 HOME</span>
-            <span class="nav-skull-icon">💀</span>
-          </a>
-        </li>
-        <li>
-          <a href="#studio" class="gothic-nav-link nav-link" data-route="studio" id="nav-studio">
-            <span>02 DECISION STUDIO</span>
-            <span class="nav-skull-icon">💀</span>
-          </a>
-        </li>
-        <li>
-          <a href="#lab" class="gothic-nav-link nav-link" data-route="lab" id="nav-lab">
-            <span>03 SCENARIO LAB</span>
-            <span class="nav-skull-icon">💀</span>
-          </a>
-        </li>
-        <li>
-          <a href="#impact" class="gothic-nav-link nav-link" data-route="impact" id="nav-impact">
-            <span>04 IMPACT MAP</span>
-            <span class="nav-skull-icon">💀</span>
-          </a>
-        </li>
-        <li>
-          <a href="#briefing" class="gothic-nav-link nav-link" data-route="briefing" id="nav-briefing">
-            <span>05 BRIEFING ROOM</span>
-            <span class="nav-skull-icon">💀</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <!-- Fog sweep overlay -->
+    <div class="conjuring-fog-sweep" aria-hidden="true"></div>
 
-    <!-- Right: Stacked DECISION PULSE + Spinning Cosmic Vortex Medallion -->
-    <div class="decision-pulse-vortex-wrap" id="decisionPulseBadge" title="Decision Engine Pulse: ACTIVE · Real-time Counterfactual Simulator">
+    <!-- Scratched aged-glass texture overlay -->
+    <div class="conjuring-scratch-overlay" aria-hidden="true"></div>
+
+    <!-- MAIN STRIP: Hamburger + 5 Route Nav Links (Height: 58px) -->
+    <div class="conjuring-nav-main-strip">
+      <!-- Blood drip SVG along bottom edge of main strip -->
+      <svg class="conjuring-blood-drip" viewBox="0 0 1000 18" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,0 H1000 V4 Q980,4 970,8 Q965,14 960,4 H940 Q930,4 925,10 Q920,18 915,4 H860 Q850,4 845,12 Q840,18 835,4 H780 Q770,4 762,9 Q758,16 752,4 H700 Q690,4 685,11 Q680,18 675,4 H620 Q612,4 608,8 Q604,14 598,4 H540 Q530,4 524,12 Q519,18 514,4 H460 Q452,4 447,9 Q443,15 437,4 H380 Q370,4 365,11 Q360,18 355,4 H300 Q292,4 288,8 Q284,14 278,4 H220 Q210,4 204,12 Q199,18 194,4 H140 Q132,4 127,10 Q123,16 117,4 H70 Q62,4 57,9 Q52,15 47,4 H0 Z" fill="url(#bloodGrad)"/>
+        <defs>
+          <linearGradient id="bloodGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8B0000"/>
+            <stop offset="60%" stop-color="#DC143C"/>
+            <stop offset="100%" stop-color="#5C0000" stop-opacity="0.6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Left: Hamburger with flickering candle flame -->
+      <button class="nav-hamburger-btn conjuring-hamburger" id="navHamburgerBtn" title="Menu / Quick Navigation" aria-label="Toggle Navigation Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="conjuring-candle-dot" aria-hidden="true"></span>
+      </button>
+
+      <!-- 5 Dedicated Route Navigation Items with Trembling Cross Icons -->
+      <nav aria-label="Gothic Main Navigation">
+        <ul class="gothic-nav-links" id="navbarDestinations">
+          <li>
+            <a href="#home" class="gothic-nav-link nav-link active" data-route="home" id="nav-home">
+              <span class="conjuring-nav-num">I</span>
+              <span>HOME</span>
+              <span class="nav-cross-icon" aria-hidden="true">&#x271F;</span>
+            </a>
+          </li>
+          <li>
+            <a href="#studio" class="gothic-nav-link nav-link" data-route="studio" id="nav-studio">
+              <span class="conjuring-nav-num">II</span>
+              <span>DECISION STUDIO</span>
+              <span class="nav-cross-icon" aria-hidden="true">&#x271F;</span>
+            </a>
+          </li>
+          <li>
+            <a href="#lab" class="gothic-nav-link nav-link" data-route="lab" id="nav-lab">
+              <span class="conjuring-nav-num">III</span>
+              <span>SCENARIO LAB</span>
+              <span class="nav-cross-icon" aria-hidden="true">&#x271F;</span>
+            </a>
+          </li>
+          <li>
+            <a href="#impact" class="gothic-nav-link nav-link" data-route="impact" id="nav-impact">
+              <span class="conjuring-nav-num">IV</span>
+              <span>IMPACT MAP</span>
+              <span class="nav-cross-icon" aria-hidden="true">&#x271F;</span>
+            </a>
+          </li>
+          <li>
+            <a href="#briefing" class="gothic-nav-link nav-link" data-route="briefing" id="nav-briefing">
+              <span class="conjuring-nav-num">V</span>
+              <span>BRIEFING ROOM</span>
+              <span class="nav-cross-icon" aria-hidden="true">&#x271F;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- SWOOP BRIDGE: Smooth gothic S-curve connecting 58px strip to 88px cradle -->
+    <div class="conjuring-swoop-bridge" aria-hidden="true">
+      <svg viewBox="0 0 46 88" fill="none" preserveAspectRatio="none">
+        <path d="M 0,0 L 46,0 L 46,88 C 22,88 24,58 0,58 Z" fill="url(#swoopFill)" />
+        <line x1="0" y1="0" x2="46" y2="0" stroke="rgba(140, 20, 20, 0.7)" stroke-width="1.8" />
+        <path d="M 0,58 C 24,58 22,88 46,88" stroke="rgba(160, 20, 20, 0.75)" stroke-width="1.8" />
+        <defs>
+          <linearGradient id="swoopFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#140606" stop-opacity="0.97"/>
+            <stop offset="60%" stop-color="#0e0202" stop-opacity="0.99"/>
+            <stop offset="100%" stop-color="#070101" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- RIGHT CRADLE POD: DECISION PULSE + CARDIAC HEARTBEAT MEDALLION (Height: 88px) -->
+    <div class="conjuring-pulse-pod" id="decisionPulseBadge" title="Decision Engine Pulse: ACTIVE · 3:07 AM Paranormal Heartbeat">
       <div class="pulse-vortex-label">
         <span class="pulse-vortex-title">DECISION</span>
-        <span class="pulse-vortex-status" id="pulseLabel">PULSE</span>
+        <span class="pulse-vortex-status conjuring-pulse-glow" id="pulseLabel">PULSE</span>
+        <span class="pulse-vortex-sub">3:07 AM · ACTIVE</span>
       </div>
-      <div class="vortex-medallion">
-        <div class="vortex-spinner"></div>
-        <div class="vortex-core"></div>
+      <div class="vortex-medallion conjuring-medallion" id="heartbeatMedallion">
+        <!-- Shockwave ripple rings that expand on each heartbeat -->
+        <div class="heartbeat-shockwave" aria-hidden="true"></div>
+        <div class="heartbeat-shockwave wave-2" aria-hidden="true"></div>
+        <div class="vortex-spinner conjuring-spinner"></div>
+        <div class="vortex-core conjuring-core"></div>
+        <div class="conjuring-pendulum-hand" aria-hidden="true"></div>
       </div>
     </div>
   </header>

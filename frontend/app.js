@@ -1416,3 +1416,95 @@
   }
 
 })();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// THE CONJURING — CURSED NAVBAR AMBIENT EFFECTS & TACHYCARDIA HEARTBEAT
+// ═══════════════════════════════════════════════════════════════════════════════
+(function initConjuringNavbar() {
+  const navbar = document.querySelector('.conjuring-navbar');
+  if (!navbar) return;
+
+  // ── Random micro-flicker on navbar (dying lightbulb in haunted cellar) ──
+  function triggerNavbarFlicker() {
+    const intensity = Math.random();
+    if (intensity > 0.92) {
+      navbar.style.opacity = '0.88';
+      setTimeout(() => {
+        navbar.style.opacity = '0.96';
+        setTimeout(() => {
+          navbar.style.opacity = '0.84';
+          setTimeout(() => {
+            navbar.style.opacity = '1';
+          }, 50 + Math.random() * 30);
+        }, 40 + Math.random() * 40);
+      }, 30 + Math.random() * 50);
+    }
+    setTimeout(triggerNavbarFlicker, 3500 + Math.random() * 7500);
+  }
+  setTimeout(triggerNavbarFlicker, 4000);
+
+  // ── Blood drip glow intensifies on scroll ──
+  const bloodDrip = navbar.querySelector('.conjuring-blood-drip');
+  if (bloodDrip) {
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const delta = Math.abs(scrollY - lastScroll);
+      if (delta > 5) {
+        const glowIntensity = Math.min(delta / 10, 1);
+        bloodDrip.style.filter = 'drop-shadow(0 ' + (2 + glowIntensity * 4) + 'px ' + (4 + glowIntensity * 8) + 'px rgba(220, 20, 60, ' + (0.6 + glowIntensity * 0.4) + '))';
+        setTimeout(() => {
+          bloodDrip.style.filter = '';
+        }, 300);
+      }
+      lastScroll = scrollY;
+    }, { passive: true });
+  }
+
+  // ── Nav link hover sound-like visual pulse (cross trembles) ──
+  const navLinks = navbar.querySelectorAll('.gothic-nav-link');
+  navLinks.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      const cross = link.querySelector('.nav-cross-icon');
+      if (cross) {
+        cross.style.transition = 'transform 0.15s ease';
+        cross.style.transform = 'rotate(12deg) scale(1.35)';
+        setTimeout(() => {
+          cross.style.transform = 'rotate(-8deg) scale(1.15)';
+          setTimeout(() => {
+            cross.style.transform = 'rotate(0deg) scale(1)';
+          }, 120);
+        }, 100);
+      }
+    });
+  });
+
+  // ── Heartbeat Tachycardia (Accelerates to rapid panicked pulse on hover) ──
+  const pulsePod = navbar.querySelector('.conjuring-pulse-pod');
+  const medallion = navbar.querySelector('.conjuring-medallion');
+  const pulseText = navbar.querySelector('#pulseLabel');
+
+  if (pulsePod && medallion) {
+    pulsePod.addEventListener('mouseenter', () => {
+      // Rapid frightened heartbeat (0.65s cycle)
+      medallion.style.animationDuration = '0.65s';
+      if (pulseText) pulseText.style.animationDuration = '0.65s';
+      const waves = medallion.querySelectorAll('.heartbeat-shockwave');
+      waves.forEach(w => w.style.animationDuration = '0.65s');
+      const core = medallion.querySelector('.conjuring-core');
+      if (core) core.style.animationDuration = '0.65s';
+    });
+
+    pulsePod.addEventListener('mouseleave', () => {
+      // Return to ominous steady heartbeat (1.25s cycle)
+      medallion.style.animationDuration = '1.25s';
+      if (pulseText) pulseText.style.animationDuration = '1.25s';
+      const waves = medallion.querySelectorAll('.heartbeat-shockwave');
+      waves.forEach(w => w.style.animationDuration = '1.25s');
+      const core = medallion.querySelector('.conjuring-core');
+      if (core) core.style.animationDuration = '1.25s';
+    });
+  }
+})();

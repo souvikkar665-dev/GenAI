@@ -209,8 +209,6 @@ h6,
 .preview-reset-btn,
 .splus-bottom-bar,
 .journey-step-item,
-.pulse-vortex-title,
-.pulse-vortex-status,
 .metric-number,
 .metric-label,
 .status-pill,
@@ -2363,160 +2361,606 @@ body::before {
   }
 }
 
-/* S++ Gothic-Sculpted Floating Navbar */
-.gothic-navbar-pod {
+/* ==========================================================================
+   THE CONJURING — SCULPTED CURSED ARTIFACT NAVBAR
+   Features:
+   - Outer wrapper with unified drop-shadow
+   - Flat 58px main strip with dripping blood along bottom edge
+   - Seamless 46px S-curve swoop bridge dipping from 58px to 88px
+   - Deep 88px right cradle pod housing DECISION PULSE
+   - True anatomical cardiac heartbeat (lub-DUB) with shockwave ripples
+   ========================================================================== */
+
+.gothic-navbar-pod.conjuring-navbar {
   position: sticky;
   top: 14px;
-  max-width: 1340px;
+  max-width: 1360px;
   margin: 0 auto;
   z-index: 300;
-  height: 64px;
-  background: linear-gradient(180deg, rgba(16, 22, 28, 0.88) 0%, rgba(11, 16, 20, 0.95) 100%);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(167, 107, 255, 0.4);
-  border-bottom: 1.5px solid rgba(38, 180, 180, 0.35);
-  box-shadow:
-    0 16px 42px rgba(0, 0, 0, 0.85),
-    0 0 24px rgba(167, 107, 255, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  border-radius: 8px 8px 24px 24px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: 0 18px 0 24px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  filter:
+    drop-shadow(0 18px 45px rgba(0, 0, 0, 0.95))
+    drop-shadow(0 0 30px rgba(139, 0, 0, 0.35))
+    drop-shadow(0 0 60px rgba(80, 0, 0, 0.15));
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
 }
 
-.nav-hamburger-btn {
+/* ── Fog Sweep Overlay ── */
+.conjuring-fog-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+  border-radius: 6px 6px 24px 6px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.conjuring-fog-sweep::before,
+.conjuring-fog-sweep::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  width: 200%;
+  height: 180%;
+  background:
+    radial-gradient(ellipse 600px 100px at 30% 50%, rgba(180, 180, 180, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 80px at 70% 60%, rgba(200, 200, 200, 0.03) 0%, transparent 70%);
+  animation: conjuringFogDrift 18s ease-in-out infinite alternate;
+  opacity: 0.7;
+}
+
+.conjuring-fog-sweep::after {
+  animation-delay: -9s;
+  animation-duration: 22s;
+  opacity: 0.5;
+}
+
+@keyframes conjuringFogDrift {
+  0% { transform: translateX(-15%) translateY(5%); }
+  100% { transform: translateX(15%) translateY(-5%); }
+}
+
+/* ── Scratched Aged-Glass Texture Overlay ── */
+.conjuring-scratch-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+  border-radius: 6px 6px 24px 6px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.05;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 3px,
+      rgba(255, 255, 255, 0.08) 3px, rgba(255, 255, 255, 0.08) 3.5px,
+      transparent 3.5px, transparent 18px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 8px,
+      rgba(255, 200, 200, 0.05) 8px, rgba(255, 200, 200, 0.05) 8.5px,
+      transparent 8.5px, transparent 22px
+    );
+  mix-blend-mode: overlay;
+}
+
+/* ── MAIN NAV STRIP: Height 58px ── */
+.conjuring-nav-main-strip {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 0 20px;
+  background:
+    linear-gradient(180deg,
+      rgba(18, 6, 6, 0.96) 0%,
+      rgba(12, 3, 3, 0.98) 50%,
+      rgba(7, 1, 1, 0.99) 100%);
+  backdrop-filter: blur(24px) saturate(1.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.25);
+  border-top: 1.5px solid rgba(140, 20, 20, 0.7);
+  border-bottom: 1.5px solid rgba(160, 20, 20, 0.75);
+  border-left: 1.5px solid rgba(150, 20, 20, 0.65);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  flex: 1;
+  position: relative;
+  z-index: 10;
+  box-shadow: inset 0 1px 0 rgba(220, 60, 60, 0.15), inset 0 -1px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Blood Drip SVG along Bottom Edge of Main Strip ── */
+.conjuring-blood-drip {
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  width: 100%;
+  height: 18px;
+  z-index: 15;
+  filter: drop-shadow(0 2px 4px rgba(139, 0, 0, 0.6));
+  animation: bloodDripPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bloodDripPulse {
+  0%, 100% { opacity: 0.88; filter: drop-shadow(0 2px 4px rgba(139, 0, 0, 0.6)); }
+  50% { opacity: 1; filter: drop-shadow(0 3px 9px rgba(220, 20, 60, 0.8)); }
+}
+
+/* ── SWOOP BRIDGE: S-Curve Connecting 58px to 88px ── */
+.conjuring-swoop-bridge {
+  width: 46px;
+  height: 88px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  margin-left: -1px;
+  margin-right: -1px;
+  pointer-events: none;
+}
+
+.conjuring-swoop-bridge svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── RIGHT POD CRADLE: Height 88px ── */
+.conjuring-pulse-pod {
+  height: 88px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px 0 6px;
+  background:
+    linear-gradient(180deg,
+      rgba(20, 6, 6, 0.97) 0%,
+      rgba(12, 2, 2, 0.99) 50%,
+      rgba(6, 1, 1, 1) 100%);
+  backdrop-filter: blur(24px) saturate(1.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.25);
+  border-top: 1.5px solid rgba(140, 20, 20, 0.7);
+  border-bottom: 1.5px solid rgba(160, 20, 20, 0.75);
+  border-right: 1.5px solid rgba(160, 20, 20, 0.7);
+  border-left: none;
+  border-radius: 0 6px 26px 0;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(220, 60, 60, 0.15),
+    inset -2px -2px 10px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(139, 0, 0, 0.2);
+  transition: all 0.35s ease;
+}
+
+.conjuring-pulse-pod:hover {
+  background:
+    linear-gradient(180deg,
+      rgba(28, 8, 8, 0.98) 0%,
+      rgba(16, 3, 3, 1) 50%,
+      rgba(8, 1, 1, 1) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 80, 80, 0.25),
+    inset -2px -2px 12px rgba(0, 0, 0, 0.8),
+    0 0 35px rgba(220, 20, 60, 0.35);
+}
+
+/* ── Left: Hamburger with Candle Flame ── */
+.conjuring-hamburger {
   background: transparent;
   border: none;
   color: var(--bone-white);
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 4.5px;
-  padding: 8px;
+  gap: 5px;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-.nav-hamburger-btn:hover {
-  opacity: 0.8;
-}
-
-.hamburger-line {
-  width: 22px;
+.conjuring-hamburger .hamburger-line {
+  width: 24px;
   height: 2px;
-  background: var(--bone-white);
+  background: linear-gradient(90deg, #c9a060 0%, #8B0000 100%);
   border-radius: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 4px rgba(139, 0, 0, 0.4);
 }
 
-.gothic-nav-links {
+.conjuring-hamburger:hover .hamburger-line {
+  background: linear-gradient(90deg, #f0ca85 0%, #DC143C 100%);
+  box-shadow: 0 0 8px rgba(220, 20, 60, 0.7);
+}
+
+.conjuring-candle-dot {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff6b35;
+  box-shadow: 0 0 6px #ff6b35, 0 0 12px rgba(255, 107, 53, 0.6);
+  animation: candleFlicker 0.15s ease-in-out infinite alternate;
+}
+
+@keyframes candleFlicker {
+  0% { opacity: 0.7; transform: scale(0.85); box-shadow: 0 0 4px #ff6b35, 0 0 8px rgba(255, 107, 53, 0.4); }
+  25% { opacity: 1; transform: scale(1.1); }
+  50% { opacity: 0.85; transform: scale(0.95); }
+  75% { opacity: 1; transform: scale(1.05); box-shadow: 0 0 8px #ff6b35, 0 0 16px rgba(255, 107, 53, 0.7); }
+  100% { opacity: 0.9; transform: scale(1); box-shadow: 0 0 6px #ff6b35, 0 0 12px rgba(255, 107, 53, 0.5); }
+}
+
+/* ── Navigation Links ── */
+.conjuring-navbar .gothic-nav-links {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   list-style: none;
 }
 
-.gothic-nav-link {
+.conjuring-navbar .gothic-nav-link {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #c4d1d2;
+  color: #a89885;
   text-decoration: none;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  position: relative;
-  transition: all 0.2s ease;
-}
-
-.gothic-nav-link:hover {
-  color: #ffffff;
-  text-shadow: 0 0 12px var(--glow-violet);
-  background: rgba(167, 107, 255, 0.08);
-}
-
-.gothic-nav-link.active {
-  color: var(--bone-white);
-  text-shadow: 0 0 14px var(--glow-violet);
-  background: rgba(167, 107, 255, 0.15);
-  border-bottom: 2px solid var(--electric-violet);
-}
-
-.nav-skull-icon {
-  font-size: 10px;
-  opacity: 0.7;
-}
-
-/* Cosmic Decision Pulse Vortex Medallion */
-.decision-pulse-vortex-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  transition: all 0.2s ease;
-}
-
-.pulse-vortex-label {
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-  line-height: 1.1;
-}
-
-.pulse-vortex-title {
-  font-size: 8.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--smoke);
-  font-weight: 700;
-}
-
-.pulse-vortex-status {
-  font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--spectral-lime);
-  font-weight: 800;
+  padding: 8px 12px;
+  border-radius: 3px;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  animation: conjuringTextFlicker 6s ease-in-out infinite;
+  white-space: nowrap;
 }
 
-.vortex-medallion {
-  width: 44px;
-  height: 44px;
+.conjuring-navbar .gothic-nav-links li:nth-child(1) .gothic-nav-link { animation-delay: 0s; }
+.conjuring-navbar .gothic-nav-links li:nth-child(2) .gothic-nav-link { animation-delay: 1.2s; }
+.conjuring-navbar .gothic-nav-links li:nth-child(3) .gothic-nav-link { animation-delay: 2.4s; }
+.conjuring-navbar .gothic-nav-links li:nth-child(4) .gothic-nav-link { animation-delay: 3.6s; }
+.conjuring-navbar .gothic-nav-links li:nth-child(5) .gothic-nav-link { animation-delay: 4.8s; }
+
+@keyframes conjuringTextFlicker {
+  0%, 100% { text-shadow: 0 0 2px rgba(201, 160, 96, 0.2); }
+  3% { text-shadow: 0 0 8px rgba(255, 107, 53, 0.5), 0 0 20px rgba(139, 0, 0, 0.2); }
+  6% { text-shadow: 0 0 2px rgba(201, 160, 96, 0.15); }
+  8% { text-shadow: 0 0 10px rgba(255, 107, 53, 0.6), 0 0 24px rgba(139, 0, 0, 0.3); }
+  11% { text-shadow: 0 0 3px rgba(201, 160, 96, 0.25); }
+  50% { text-shadow: 0 0 2px rgba(201, 160, 96, 0.2); }
+}
+
+.conjuring-nav-num {
+  font-size: 9.5px;
+  color: #8B0000;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+  min-width: 16px;
+  text-align: center;
+}
+
+.nav-cross-icon {
+  font-size: 11px;
+  color: #6a1a1a;
+  opacity: 0.55;
+  transition: all 0.25s ease;
+  display: inline-block;
+}
+
+.conjuring-navbar .gothic-nav-link:hover {
+  color: #f0dec5;
+  background: rgba(139, 0, 0, 0.15);
+  border-color: rgba(139, 0, 0, 0.35);
+  text-shadow: 0 0 8px rgba(255, 107, 53, 0.5), 0 0 18px rgba(139, 0, 0, 0.3);
+}
+
+.conjuring-navbar .gothic-nav-link:hover .nav-cross-icon {
+  color: #DC143C;
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(220, 20, 60, 0.7);
+  animation: crossTremble 0.3s ease-in-out;
+}
+
+@keyframes crossTremble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(-8deg); }
+  75% { transform: rotate(5deg); }
+}
+
+.conjuring-navbar .gothic-nav-link:hover .conjuring-nav-num {
+  color: #DC143C;
+  opacity: 1;
+}
+
+/* Active Link State */
+.conjuring-navbar .gothic-nav-link.active {
+  color: #fff1dc;
+  background: rgba(139, 0, 0, 0.22);
+  border-color: rgba(180, 20, 20, 0.45);
+  border-bottom: 2px solid #DC143C;
+  text-shadow:
+    0 0 6px rgba(255, 107, 53, 0.45),
+    0 0 16px rgba(180, 0, 0, 0.35);
+  box-shadow:
+    0 4px 14px rgba(139, 0, 0, 0.35),
+    inset 0 -1px 8px rgba(139, 0, 0, 0.25);
+}
+
+.conjuring-navbar .gothic-nav-link.active .nav-cross-icon {
+  color: #DC143C;
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(220, 20, 60, 0.7);
+}
+
+.conjuring-navbar .gothic-nav-link.active .conjuring-nav-num {
+  color: #ff3333;
+  opacity: 1;
+}
+
+/* ========================================================================
+   DECISION PULSE LABELS & CLEAN TYPOGRAPHY (FIXED)
+   ======================================================================== */
+.conjuring-pulse-pod .pulse-vortex-label {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  text-align: right !important;
+  line-height: 1 !important;
+  gap: 2px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.conjuring-pulse-pod .pulse-vortex-title {
+  color: #c9a060 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.24em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-shadow: 0 0 6px rgba(201, 160, 96, 0.3) !important;
+}
+
+.conjuring-pulse-pod .pulse-vortex-status.conjuring-pulse-glow {
+  color: #ff2a2a !important;
+  font-family: 'The Halloween', 'Cinzel', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  line-height: 1.05 !important;
+  margin: 1px 0 0 0 !important;
+  padding: 0 !important;
+  text-shadow:
+    0 0 10px rgba(255, 30, 30, 0.85),
+    0 0 22px rgba(180, 0, 0, 0.6) !important;
+  animation: pulseTextHeartbeat 1.25s ease-in-out infinite;
+}
+
+.conjuring-pulse-pod .pulse-vortex-sub {
+  color: #994040 !important;
+  font-family: 'Cinzel', monospace !important;
+  font-size: 7.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  margin-top: 2px !important;
+  opacity: 0.85 !important;
+}
+
+@keyframes pulseTextHeartbeat {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(255, 30, 30, 0.7), 0 0 18px rgba(180, 0, 0, 0.5);
+    opacity: 0.85;
+  }
+  10% {
+    text-shadow: 0 0 14px rgba(255, 50, 50, 0.95), 0 0 28px rgba(255, 0, 0, 0.75);
+    opacity: 1;
+  }
+  16% {
+    text-shadow: 0 0 10px rgba(255, 30, 30, 0.8), 0 0 20px rgba(180, 0, 0, 0.55);
+    opacity: 0.9;
+  }
+  28% {
+    text-shadow:
+      0 0 20px rgba(255, 60, 60, 1),
+      0 0 35px rgba(255, 0, 0, 0.85),
+      0 0 50px rgba(180, 0, 0, 0.6);
+    opacity: 1;
+  }
+  42% {
+    text-shadow: 0 0 8px rgba(255, 30, 30, 0.7), 0 0 18px rgba(180, 0, 0, 0.5);
+    opacity: 0.85;
+  }
+}
+
+/* ========================================================================
+   CARDIAC HEARTBEAT MEDALLION (lub-DUB with Expanding Shockwaves)
+   ======================================================================== */
+.conjuring-medallion {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle, #0e161c 0%, #06090c 100%);
-  border: 1.5px solid rgba(167, 107, 255, 0.5);
-  box-shadow: 0 0 18px var(--glow-violet), inset 0 0 10px rgba(0, 0, 0, 0.8);
+  background: radial-gradient(circle, #220606 0%, #0a0101 100%);
+  border: 2px solid rgba(220, 20, 60, 0.75) !important;
+  flex-shrink: 0;
+  animation: cardiacHeartbeat 1.25s cubic-bezier(0.25, 0.7, 0.35, 1) infinite;
+  cursor: pointer;
+  overflow: visible !important;
+  box-shadow:
+    0 0 16px rgba(139, 0, 0, 0.45),
+    0 0 32px rgba(80, 0, 0, 0.25),
+    inset 0 0 12px rgba(0, 0, 0, 0.95);
 }
 
-.vortex-spinner {
+/* Cardiac cycle: lub-DUB ... lub-DUB ... */
+@keyframes cardiacHeartbeat {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 14px rgba(139, 0, 0, 0.4),
+      0 0 25px rgba(80, 0, 0, 0.2),
+      inset 0 0 12px rgba(0, 0, 0, 0.95);
+  }
+  /* lub */
+  10% {
+    transform: scale(1.15);
+    box-shadow:
+      0 0 24px rgba(255, 30, 60, 0.85),
+      0 0 45px rgba(200, 0, 0, 0.55),
+      inset 0 0 14px rgba(255, 0, 0, 0.35);
+  }
+  16% {
+    transform: scale(1.04);
+    box-shadow:
+      0 0 16px rgba(180, 0, 0, 0.5),
+      0 0 30px rgba(100, 0, 0, 0.25),
+      inset 0 0 12px rgba(0, 0, 0, 0.95);
+  }
+  /* DUB (stronger ventricular contraction) */
+  28% {
+    transform: scale(1.24);
+    box-shadow:
+      0 0 36px rgba(255, 20, 50, 0.98),
+      0 0 65px rgba(220, 0, 0, 0.75),
+      0 0 90px rgba(139, 0, 0, 0.45),
+      inset 0 0 16px rgba(255, 50, 50, 0.45);
+  }
+  42% {
+    transform: scale(1);
+    box-shadow:
+      0 0 14px rgba(139, 0, 0, 0.4),
+      0 0 25px rgba(80, 0, 0, 0.2),
+      inset 0 0 12px rgba(0, 0, 0, 0.95);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 14px rgba(139, 0, 0, 0.4),
+      0 0 25px rgba(80, 0, 0, 0.2),
+      inset 0 0 12px rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Expanding acoustic shockwave ring 1 (lub) */
+.heartbeat-shockwave {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 30, 60, 0.75);
+  pointer-events: none;
+  animation: shockwavePulse1 1.25s ease-out infinite;
+}
+
+@keyframes shockwavePulse1 {
+  0% { transform: scale(1); opacity: 0; }
+  10% { transform: scale(1); opacity: 0.9; border-color: rgba(255, 50, 70, 0.85); }
+  35% { transform: scale(1.6); opacity: 0; border-color: rgba(180, 0, 0, 0); }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Expanding acoustic shockwave ring 2 (DUB) */
+.heartbeat-shockwave.wave-2 {
+  animation: shockwavePulse2 1.25s ease-out infinite;
+}
+
+@keyframes shockwavePulse2 {
+  0% { transform: scale(1); opacity: 0; }
+  28% { transform: scale(1.05); opacity: 1; border-color: rgba(255, 30, 30, 0.95); }
+  55% { transform: scale(1.9); opacity: 0; border-color: rgba(139, 0, 0, 0); }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* Spinner inside medallion */
+.conjuring-spinner {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--spectral-lime), var(--electric-violet), #00f0ff, var(--spectral-lime));
-  filter: blur(1.5px);
-  animation: spinVortex 4s linear infinite;
-  opacity: 0.85;
+  background: conic-gradient(
+    from 0deg,
+    #3a0000,
+    #8B0000,
+    #DC143C,
+    #8B0000,
+    #3a0000,
+    #1a0000,
+    #3a0000
+  ) !important;
+  filter: blur(1px);
+  animation: spinVortex 8s linear infinite !important;
+  opacity: 0.7 !important;
 }
 
-.vortex-core {
+/* Inner Pulsing Core */
+.conjuring-core {
   position: absolute;
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 12px #ffffff, 0 0 20px var(--electric-violet);
+  background: radial-gradient(circle, #ff3333 0%, #b30000 70%, #4a0000 100%) !important;
+  box-shadow: 0 0 10px #ff2222, 0 0 20px rgba(255, 0, 0, 0.7) !important;
+  animation: coreCardiacPulse 1.25s ease-in-out infinite;
+}
+
+@keyframes coreCardiacPulse {
+  0%, 100% { opacity: 0.65; transform: scale(0.9); }
+  10% { opacity: 0.95; transform: scale(1.15); }
+  16% { opacity: 0.75; transform: scale(1.0); }
+  28% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 8px #ff4444); }
+  42% { opacity: 0.65; transform: scale(0.9); }
+}
+
+/* Pendulum hand - subtle ticking */
+.conjuring-pendulum-hand {
+  position: absolute;
+  width: 2px;
+  height: 17px;
+  background: linear-gradient(180deg, #DC143C 0%, rgba(139, 0, 0, 0.2) 100%);
+  top: 5px;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(0deg);
+  animation: pendulumSwing 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  border-radius: 1px;
+  z-index: 2;
+}
+
+@keyframes pendulumSwing {
+  0% { transform: translateX(-50%) rotate(-30deg); }
+  50% { transform: translateX(-50%) rotate(30deg); }
+  100% { transform: translateX(-50%) rotate(-30deg); }
 }
 
 @keyframes spinVortex {
