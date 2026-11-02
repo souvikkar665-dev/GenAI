@@ -226,12 +226,12 @@
       { id: 'src-quality', name: 'Service Quality & CSAT Baseline', freshness: 'Updated 1 hr ago', quality: '99% clean', excluded: false }
     ],
     impactNodes: [
-      { id: 'node-support', label: 'Customer Support', sub: '−12% ticket surge', color: 'lime', status: 'Favorable', x: 160, y: 120, r: 36, critical: true, details: { changed: 'Support ticket surge during first 14 days drops by 12% mid-point (5.35k–5.75k tickets), staying below 6,000 threshold.', root: '14-day delay removes initial onboarding wave from peak holiday week.', evidence: 'Q3 regional onboarding showed 22% higher resolution efficiency when agents finished training.', measurement: 'Monitor daily ticket inflow starting Nov 18; verify escalation stays under 8.5%.' } },
-      { id: 'node-finance', label: 'Finance & Revenue', sub: '−$0.2M timing shift', color: 'amber', status: 'Risk / Shift', x: 380, y: 70, r: 34, critical: true, details: { changed: 'Revenue timing shifts into early Q1 reporting period; full-year revenue remains neutral.', root: '14 calendar day delay pushes initial billing cycles across accounting month boundary.', evidence: 'Historical subscription recognition schedules from Western region 2025.', measurement: 'Audit weekly booking run-rate during first 30 days post-launch.' } },
-      { id: 'node-people', label: 'People Operations', sub: '100% staff readiness', color: 'lime', status: 'Favorable', x: 600, y: 120, r: 34, critical: false, details: { changed: 'Training completion rate reaches 100% without incurring mandatory overtime.', root: 'Added two-week runway gives managers capacity for shadow sessions.', evidence: 'People Ops LMS records confirm 12 remaining modules require 8 business days.', measurement: 'Verify all 24 regional reps complete final exam by Nov 08.' } },
-      { id: 'node-marketing', label: 'Marketing Campaigns', sub: 'Flight shift required', color: 'amber', status: 'Risk', x: 220, y: 280, r: 32, critical: true, details: { changed: 'Paid media placement reservations must be moved back by 14 days.', root: 'Commercial launch date alignment.', evidence: 'Ad agency contract allows one date shift with 5 days advance notice at no penalty.', measurement: 'Confirm partner agency re-booking confirmation by Nov 02.' } },
-      { id: 'node-customers', label: 'Target Customers', sub: 'CSAT protection', color: 'violet', status: 'Uncertain', x: 440, y: 310, r: 32, critical: true, details: { changed: 'Initial customer sentiment protected by avoiding first-wave onboarding bugs.', root: 'Smoother service onboarding and shorter support wait times.', evidence: 'Regional survey showed 84% of prospects prefer a bug-free launch over early access.', measurement: 'Track Day 7 CSAT survey results; benchmark against 82 point target.' } },
-      { id: 'node-logistics', label: 'Warehouse Logistics', sub: 'Low inventory impact', color: 'smoke', status: 'Low Impact', x: 600, y: 270, r: 28, critical: false, details: { changed: 'Physical welcome kits stored in regional fulfillment hub an additional 14 days.', root: 'Holding time expansion.', evidence: 'Cross-dock storage fee is negligible ($350/week).', measurement: 'Check staging warehouse temperature and packaging integrity on Nov 10.' } }
+      { id: 'node-finance', label: 'Finance & Revenue', sub: '−$0.2M timing shift', color: 'amber', status: 'Risk / Shift', x: 400, y: 70, r: 35, critical: true, details: { changed: 'Revenue timing shifts into early Q1 reporting period; full-year revenue remains neutral.', root: '14 calendar day delay pushes initial billing cycles across accounting month boundary.', evidence: 'Historical subscription recognition schedules from Western region 2025.', measurement: 'Audit weekly booking run-rate during first 30 days post-launch.' } },
+      { id: 'node-support', label: 'Customer Support', sub: '−12% ticket surge', color: 'lime', status: 'Favorable', x: 175, y: 135, r: 38, critical: true, details: { changed: 'Support ticket surge during first 14 days drops by 12% mid-point (5.35k–5.75k tickets), staying below 6,000 threshold.', root: '14-day delay removes initial onboarding wave from peak holiday week.', evidence: 'Q3 regional onboarding showed 22% higher resolution efficiency when agents finished training.', measurement: 'Monitor daily ticket inflow starting Nov 18; verify escalation stays under 8.5%.' } },
+      { id: 'node-people', label: 'People Operations', sub: '100% staff readiness', color: 'lime', status: 'Favorable', x: 625, y: 135, r: 36, critical: false, details: { changed: 'Training completion rate reaches 100% without incurring mandatory overtime.', root: 'Added two-week runway gives managers capacity for shadow sessions.', evidence: 'People Ops LMS records confirm 12 remaining modules require 8 business days.', measurement: 'Verify all 24 regional reps complete final exam by Nov 08.' } },
+      { id: 'node-marketing', label: 'Marketing Campaigns', sub: 'Flight shift required', color: 'amber', status: 'Risk', x: 195, y: 295, r: 34, critical: true, details: { changed: 'Paid media placement reservations must be moved back by 14 days.', root: 'Commercial launch date alignment.', evidence: 'Ad agency contract allows one date shift with 5 days advance notice at no penalty.', measurement: 'Confirm partner agency re-booking confirmation by Nov 02.' } },
+      { id: 'node-customers', label: 'Target Customers', sub: 'CSAT protection', color: 'violet', status: 'Uncertain', x: 400, y: 350, r: 35, critical: true, details: { changed: 'Initial customer sentiment protected by avoiding first-wave onboarding bugs.', root: 'Smoother service onboarding and shorter support wait times.', evidence: 'Regional survey showed 84% of prospects prefer a bug-free launch over early access.', measurement: 'Track Day 7 CSAT survey results; benchmark against 82 point target.' } },
+      { id: 'node-logistics', label: 'Warehouse Logistics', sub: 'Low inventory impact', color: 'cyan', status: 'Low Impact', x: 605, y: 295, r: 32, critical: false, details: { changed: 'Physical welcome kits stored in regional fulfillment hub an additional 14 days.', root: 'Holding time expansion.', evidence: 'Cross-dock storage fee is negligible ($350/week).', measurement: 'Check staging warehouse temperature and packaging integrity on Nov 10.' } }
     ],
     impactEdges: [
       { from: 'node-finance', to: 'node-support' },
@@ -842,85 +842,223 @@
     });
 
     const activeIds = new Set(activeNodes.map(n => n.id));
+    const cx = 400, cy = 210; // Center coordinate of the web & Third Eye
 
     let html = `
       <defs>
-        <radialGradient id="nodeGlowLime">
-          <stop offset="0%" stop-color="rgba(182, 217, 58, 0.4)" />
-          <stop offset="100%" stop-color="rgba(18, 43, 45, 0.95)" />
+        <!-- Gradients for Cursed Void Sphere Nodes -->
+        <radialGradient id="voidSphereGrad" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#14262f" />
+          <stop offset="60%" stop-color="#0a141a" />
+          <stop offset="100%" stop-color="#04080a" />
         </radialGradient>
-        <radialGradient id="nodeGlowAmber">
-          <stop offset="0%" stop-color="rgba(242, 140, 56, 0.4)" />
-          <stop offset="100%" stop-color="rgba(18, 43, 45, 0.95)" />
+
+        <radialGradient id="haloLimeGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(72, 229, 138, 0.7)" />
+          <stop offset="50%" stop-color="rgba(72, 229, 138, 0.25)" />
+          <stop offset="100%" stop-color="rgba(72, 229, 138, 0)" />
         </radialGradient>
-        <radialGradient id="nodeGlowViolet">
-          <stop offset="0%" stop-color="rgba(167, 107, 255, 0.4)" />
-          <stop offset="100%" stop-color="rgba(18, 43, 45, 0.95)" />
+
+        <radialGradient id="haloAmberGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(242, 140, 56, 0.75)" />
+          <stop offset="50%" stop-color="rgba(242, 140, 56, 0.25)" />
+          <stop offset="100%" stop-color="rgba(242, 140, 56, 0)" />
         </radialGradient>
-        <radialGradient id="nodeGlowSmoke">
-          <stop offset="0%" stop-color="rgba(154, 167, 168, 0.3)" />
-          <stop offset="100%" stop-color="rgba(18, 43, 45, 0.95)" />
+
+        <radialGradient id="haloVioletGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(167, 107, 255, 0.75)" />
+          <stop offset="50%" stop-color="rgba(167, 107, 255, 0.25)" />
+          <stop offset="100%" stop-color="rgba(167, 107, 255, 0)" />
         </radialGradient>
+
+        <radialGradient id="haloCyanGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(0, 229, 255, 0.75)" />
+          <stop offset="50%" stop-color="rgba(38, 180, 180, 0.25)" />
+          <stop offset="100%" stop-color="rgba(38, 180, 180, 0)" />
+        </radialGradient>
+
+        <radialGradient id="eyeIrisGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#00f0ff" />
+          <stop offset="45%" stop-color="#a76bff" />
+          <stop offset="85%" stop-color="#1e1035" />
+          <stop offset="100%" stop-color="#061016" />
+        </radialGradient>
+
+        <!-- Plasma Arc Gradients -->
+        <linearGradient id="plasmaGradCyanLime" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#48e58a" stop-opacity="0.8" />
+          <stop offset="50%" stop-color="#00e5ff" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#a76bff" stop-opacity="0.8" />
+        </linearGradient>
+
+        <linearGradient id="plasmaGradAmberViolet" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f28c38" stop-opacity="0.8" />
+          <stop offset="50%" stop-color="#ff4444" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#a76bff" stop-opacity="0.8" />
+        </linearGradient>
+
+        <!-- Filters -->
+        <filter id="spectralGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
+
+      <!-- ── LAYER 1: OCCULT RADAR WEB & CAUSALITY SPIDERWEB RINGS ── -->
+      <g class="occult-web-backdrop" opacity="0.85">
+        <!-- Concentric circles -->
+        <circle cx="${cx}" cy="${cy}" r="50" class="occult-radar-ring" />
+        <circle cx="${cx}" cy="${cy}" r="110" class="occult-radar-ring dashed" />
+        <circle cx="${cx}" cy="${cy}" r="170" class="occult-radar-ring" />
+        <circle cx="${cx}" cy="${cy}" r="230" class="occult-radar-ring dashed" />
+        <circle cx="${cx}" cy="${cy}" r="290" class="occult-radar-ring" opacity="0.4" />
+
+        <!-- Radial Spokes (8 axes) -->
+        <line x1="${cx - 290}" y1="${cy}" x2="${cx + 290}" y2="${cy}" class="occult-radar-spoke" />
+        <line x1="${cx}" y1="${cy - 200}" x2="${cx}" y2="${cy + 200}" class="occult-radar-spoke" />
+        <line x1="${cx - 210}" y1="${cy - 145}" x2="${cx + 210}" y2="${cy + 145}" class="occult-radar-spoke" />
+        <line x1="${cx - 210}" y1="${cy + 145}" x2="${cx + 210}" y2="${cy - 145}" class="occult-radar-spoke" />
+
+        <!-- Spiderweb Cross Arcs (Connecting the spokes like an ancient web) -->
+        <path d="M 400,100 Q 475,130 510,210 Q 475,290 400,320 Q 325,290 290,210 Q 325,130 400,100 Z" class="occult-spider-arc" />
+        <path d="M 400,40 Q 525,85 570,210 Q 525,335 400,380 Q 275,335 230,210 Q 275,85 400,40 Z" class="occult-spider-arc" />
+      </g>
+
+      <!-- ── LAYER 2: CENTRAL SPECTRAL ALL-SEEING EYE ── -->
+      <g class="central-eye-group" onclick="showToast('Spectral Eye: Causality focal point synchronized with active scenario', 'violet')">
+        <!-- Expanding shockwave ripples -->
+        <circle cx="${cx}" cy="${cy}" r="28" class="central-eye-shockwave" />
+        <circle cx="${cx}" cy="${cy}" r="28" class="central-eye-shockwave delay-1" />
+
+        <!-- Eye Socket Shape -->
+        <path d="M ${cx - 36} ${cy} Q ${cx} ${cy - 24} ${cx + 36} ${cy} Q ${cx} ${cy + 24} ${cx - 36} ${cy} Z" class="central-eye-body" />
+
+        <!-- Glowing Iris -->
+        <circle cx="${cx}" cy="${cy}" r="13" fill="url(#eyeIrisGrad)" class="central-eye-iris" />
+
+        <!-- Vertical Slit Pupil -->
+        <ellipse cx="${cx}" cy="${cy}" rx="3.5" ry="9" fill="#000000" />
+        <circle cx="${cx - 1.5}" cy="${cy - 2.5}" r="2" fill="#ffffff" opacity="0.9" />
+      </g>
+
+      <!-- ── LAYER 3: DEPENDENCY PLASMA STREAMS (EDGES) ── -->
     `;
 
-    edges.forEach(e => {
+    // Render edges
+    edges.forEach((e, idx) => {
       if (activeIds.has(e.from) && activeIds.has(e.to)) {
         const fromNode = nodes.find(n => n.id === e.from);
         const toNode = nodes.find(n => n.id === e.to);
         if (fromNode && toNode) {
-          const midX = (fromNode.x + toNode.x) / 2;
-          const midY = (fromNode.y + toNode.y) / 2 - 20;
+          // Subtle curve offset
+          const midX = (fromNode.x + toNode.x) / 2 + (fromNode.y > toNode.y ? 15 : -15);
+          const midY = (fromNode.y + toNode.y) / 2 - 15;
+          const isSelectedEdge = appState.selectedNodeId === fromNode.id || appState.selectedNodeId === toNode.id;
+          const strokeGrad = fromNode.color === 'amber' || toNode.color === 'amber' ? 'url(#plasmaGradAmberViolet)' : 'url(#plasmaGradCyanLime)';
+          const baseOpacity = isSelectedEdge ? 0.8 : 0.35;
+          const flowWidth = isSelectedEdge ? 2.5 : 1.8;
+
           html += `
-            <path d="M ${fromNode.x} ${fromNode.y} Q ${midX} ${midY} ${toNode.x} ${toNode.y}"
-                  fill="none" stroke="rgba(167, 107, 255, 0.25)" stroke-width="1.8" class="network-edge" />
+            <g class="edge-group">
+              <!-- Glow tube -->
+              <path d="M ${fromNode.x} ${fromNode.y} Q ${midX} ${midY} ${toNode.x} ${toNode.y}"
+                    fill="none" stroke="${strokeGrad}" stroke-width="${flowWidth + 2}" opacity="${baseOpacity}" class="plasma-arc-base" />
+
+              <!-- Flowing energy pulse filament -->
+              <path id="edgePath_${idx}" d="M ${fromNode.x} ${fromNode.y} Q ${midX} ${midY} ${toNode.x} ${toNode.y}"
+                    fill="none" stroke="${strokeGrad}" stroke-width="${flowWidth}" stroke-dasharray="6, 12" class="plasma-arc-flow" />
+
+              <!-- Traveling Soul Mote (Particle animation) -->
+              <circle r="${isSelectedEdge ? 3.5 : 2.5}" fill="#ffffff" opacity="0.9" class="soul-mote">
+                <animateMotion dur="${3.5 + (idx % 3)}s" repeatCount="indefinite" path="M ${fromNode.x} ${fromNode.y} Q ${midX} ${midY} ${toNode.x} ${toNode.y}" />
+              </circle>
+            </g>
           `;
         }
       }
     });
 
+    // ── LAYER 4: BIOLUMINESCENT CURSED VOID ORBS (NODES) ──
     activeNodes.forEach(node => {
       const isSelected = node.id === appState.selectedNodeId;
-      let strokeColor = 'var(--border-subtle)';
-      let fillGrad = 'url(#nodeGlowSmoke)';
-      if (node.color === 'lime') { strokeColor = 'var(--spectral-lime)'; fillGrad = 'url(#nodeGlowLime)'; }
-      if (node.color === 'amber') { strokeColor = 'var(--ember-amber)'; fillGrad = 'url(#nodeGlowAmber)'; }
-      if (node.color === 'violet') { strokeColor = 'var(--electric-violet)'; fillGrad = 'url(#nodeGlowViolet)'; }
+      let haloGrad = 'url(#haloLimeGrad)';
+      let jewelColor = '#48e58a';
+      let ringStroke = 'rgba(72, 229, 138, 0.6)';
+      let subColor = 'var(--spectral-lime)';
 
-      const strokeW = isSelected ? 3.5 : 1.5;
-      const glowFilter = isSelected ? 'drop-shadow(0 0 16px var(--glow-violet))' : '';
+      if (node.color === 'amber') {
+        haloGrad = 'url(#haloAmberGrad)';
+        jewelColor = '#f28c38';
+        ringStroke = 'rgba(242, 140, 56, 0.6)';
+        subColor = 'var(--ember-amber)';
+      } else if (node.color === 'violet') {
+        haloGrad = 'url(#haloVioletGrad)';
+        jewelColor = '#a76bff';
+        ringStroke = 'rgba(167, 107, 255, 0.6)';
+        subColor = 'var(--electric-violet)';
+      } else if (node.color === 'cyan') {
+        haloGrad = 'url(#haloCyanGrad)';
+        jewelColor = '#00e5ff';
+        ringStroke = 'rgba(0, 229, 255, 0.6)';
+        subColor = '#00e5ff';
+      }
+
+      // Dynamic text placement
+      const labelY = node.y > cy ? node.y + node.r + 20 : node.y - node.r - 18;
+      const sublabelY = node.y > cy ? node.y + node.r + 34 : node.y - node.r - 6;
 
       html += `
-        <g class="node-circle" onclick="window.appSelectNode('${node.id}')" style="filter:${glowFilter}; cursor:pointer;">
-          <circle cx="${node.x}" cy="${node.y}" r="${node.r}" fill="${fillGrad}" stroke="${strokeColor}" stroke-width="${strokeW}" />
-          <text x="${node.x}" y="${node.y - 3}" class="node-label">${node.label}</text>
-          <text x="${node.x}" y="${node.y + 12}" class="node-sublabel">${node.sub}</text>
+        <g class="spooky-node-orb ${isSelected ? 'selected' : ''}" style="color:${jewelColor};" onclick="window.appSelectNode('${node.id}')">
+          <!-- 1. Outer Breathing Aura Halo -->
+          <circle cx="${node.x}" cy="${node.y}" r="${node.r + 18}" fill="${haloGrad}" class="spooky-node-halo" />
+
+          <!-- 2. Rotating Runic Energy Ring -->
+          <circle cx="${node.x}" cy="${node.y}" r="${node.r + 6}" fill="none" stroke="${ringStroke}" stroke-width="1.5" stroke-dasharray="6, 5" class="spooky-node-ring" />
+
+          <!-- 3. Obsidian Void Body -->
+          <circle cx="${node.x}" cy="${node.y}" r="${node.r}" fill="url(#voidSphereGrad)" stroke="${jewelColor}" stroke-width="${isSelected ? 3.5 : 2}" />
+
+          <!-- 4. Inner Bioluminescent Jewel Core -->
+          <circle cx="${node.x}" cy="${node.y}" r="${isSelected ? 12 : 9}" fill="${jewelColor}" filter="url(#spectralGlow)" />
+          <circle cx="${node.x - 3}" cy="${node.y - 3}" r="${isSelected ? 4 : 3}" fill="#ffffff" opacity="0.85" />
+
+          <!-- 5. Bone-White Horror Label -->
+          <text x="${node.x}" y="${labelY}" class="spooky-node-label">${node.label}</text>
+
+          <!-- 6. Status-Colored Sublabel -->
+          <text x="${node.x}" y="${sublabelY}" class="spooky-node-sublabel" fill="${subColor}">${node.sub}</text>
         </g>
       `;
     });
 
     svg.innerHTML = html;
   }
-
-  function renderRankedTable() {
+function renderRankedTable() {
     const tbody = document.getElementById('rankedTableBody');
     if (!tbody) return;
 
     let html = '';
     appState.impactNodes.forEach(n => {
+      const isSelected = n.id === appState.selectedNodeId;
       let dirIcon = '↔';
       let dirColor = 'var(--smoke)';
       if (n.color === 'lime') { dirIcon = '↑ Favorable'; dirColor = 'var(--spectral-lime)'; }
       if (n.color === 'amber') { dirIcon = '↓ Risk / Shift'; dirColor = 'var(--ember-amber)'; }
       if (n.color === 'violet') { dirIcon = '↔ Uncertain'; dirColor = 'var(--electric-violet)'; }
+      if (n.color === 'cyan') { dirIcon = '• Stable'; dirColor = '#00e5ff'; }
+
+      const rowClass = isSelected ? 'ranked-row active-impact-row' : 'ranked-row';
 
       html += `
-        <tr onclick="window.appSelectNode('${n.id}')" style="cursor:pointer;">
+        <tr class="${rowClass}" onclick="window.appSelectNode('${n.id}')" style="cursor:pointer;">
           <td><strong>${n.label}</strong></td>
           <td style="color:${dirColor}; font-weight:600;">${dirIcon}</td>
           <td>${n.sub}</td>
-          <td><span class="status-pill ${n.color === 'lime' ? 'status-pill-lime' : 'status-pill-smoke'}">${n.color === 'lime' ? '92%' : '74%'}</span></td>
-          <td>${n.label.includes('Support') ? 'Alex Morgan' : (n.label.includes('Finance') ? 'CFO Group' : 'Ops Lead')}</td>
+          <td><span class="status-pill ${n.color === 'lime' ? 'status-pill-lime' : (n.color === 'amber' ? 'status-pill-amber' : (n.color === 'violet' ? 'status-pill-violet' : 'status-pill-smoke'))}">${n.color === 'lime' ? '92%' : (n.color === 'amber' ? '74%' : '84%')}</span></td>
+          <td>${n.label.includes('Support') ? 'Alex Morgan' : (n.label.includes('Finance') ? 'CFO Group' : (n.label.includes('People') ? 'Ops Lead' : 'Strategy Lead'))}</td>
           <td>First 14–30 Days</td>
         </tr>
       `;
@@ -929,17 +1067,22 @@
     tbody.innerHTML = html;
   }
 
+  
   function updateDetailPanel(nodeId) {
     const node = appState.impactNodes.find(n => n.id === nodeId) || appState.impactNodes[0];
     if (!node) return;
 
     const nameEl = document.getElementById('detailNodeName');
     if (nameEl) nameEl.textContent = node.label;
-    
+
     const statusEl = document.getElementById('detailNodeStatus');
     if (statusEl) {
       statusEl.textContent = `${node.status} · ${node.sub}`;
-      statusEl.className = `status-pill status-pill-${node.color}`;
+      let pillClass = 'status-pill-lime';
+      if (node.color === 'amber') pillClass = 'status-pill-amber';
+      if (node.color === 'violet') pillClass = 'status-pill-violet';
+      if (node.color === 'cyan') pillClass = 'status-pill-smoke';
+      statusEl.className = `status-pill ${pillClass}`;
     }
 
     const chgEl = document.getElementById('detailWhatChanged');
@@ -951,6 +1094,47 @@
     if (rootEl) rootEl.textContent = node.details.root;
     if (evidEl) evidEl.textContent = node.details.evidence;
     if (measEl) measEl.textContent = node.details.measurement;
+
+    // Update Sparkline Visualizer
+    const sparkValEl = document.getElementById('sparklineVal');
+    const sparkPathEl = document.getElementById('sparklinePath');
+    const sparkFillEl = document.getElementById('sparklineFill');
+    const sparkDotEl = document.getElementById('sparklineDot');
+
+    if (sparkValEl && sparkPathEl && sparkFillEl && sparkDotEl) {
+      let strokeColor = 'var(--spectral-lime)';
+      let valText = '22.18%';
+      let pathD = 'M 0,35 Q 20,28 35,30 T 70,18 T 105,24 T 140,8';
+      let fillD = 'M 0,35 Q 20,28 35,30 T 70,18 T 105,24 T 140,8 L 140,42 L 0,42 Z';
+      let dotY = 8;
+
+      if (node.color === 'amber') {
+        strokeColor = 'var(--ember-amber)';
+        valText = '-$0.2M';
+        pathD = 'M 0,12 Q 25,18 45,22 T 85,28 T 115,24 T 140,34';
+        fillD = 'M 0,12 Q 25,18 45,22 T 85,28 T 115,24 T 140,34 L 140,42 L 0,42 Z';
+        dotY = 34;
+      } else if (node.color === 'violet') {
+        strokeColor = 'var(--electric-violet)';
+        valText = '84.0 CSAT';
+        pathD = 'M 0,24 Q 25,10 50,26 T 95,14 T 120,22 T 140,16';
+        fillD = 'M 0,24 Q 25,10 50,26 T 95,14 T 120,22 T 140,16 L 140,42 L 0,42 Z';
+        dotY = 16;
+      } else if (node.color === 'cyan') {
+        strokeColor = '#00e5ff';
+        valText = '96% Sync';
+        pathD = 'M 0,20 Q 30,22 60,18 T 100,19 T 140,18';
+        fillD = 'M 0,20 Q 30,22 60,18 T 100,19 T 140,18 L 140,42 L 0,42 Z';
+        dotY = 18;
+      }
+
+      sparkValEl.textContent = valText;
+      sparkPathEl.setAttribute('d', pathD);
+      sparkPathEl.setAttribute('stroke', strokeColor);
+      sparkFillEl.setAttribute('d', fillD);
+      sparkDotEl.setAttribute('cy', dotY);
+      sparkDotEl.setAttribute('stroke', strokeColor);
+    }
   }
 
   // ========================================================================
@@ -1029,6 +1213,7 @@
   window.appSelectNode = (nodeId) => {
     appState.selectedNodeId = nodeId;
     renderNetworkSvg();
+    renderRankedTable();
     updateDetailPanel(nodeId);
   };
 
@@ -1406,6 +1591,7 @@
   async function init() {
     setupEventListeners();
     await ApiClient.loadAllInitialData();
+    renderImpactSection();
     handleRoute(window.location.hash);
   }
 
