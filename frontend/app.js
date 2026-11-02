@@ -616,7 +616,7 @@
     renderAssumptionsList();
   }
 
-  function renderBranchCards() {
+function renderBranchCards() {
     const container = document.getElementById('branchesGrid');
     if (!container) return;
 
@@ -629,24 +629,49 @@
       if (isBaseline) cardClass += ' branch-baseline';
       if (sc.risk_heavy) cardClass += ' card-risk-amber';
 
+      // Parse delta highlights if available
+      let supDelta = '';
+      if (sc.metrics.support.includes('(')) {
+        const parts = sc.metrics.support.split('(');
+        supDelta = `<span class="metric-delta-favorable">(${parts[1]}</span>`;
+      }
+      let revDelta = '';
+      if (sc.metrics.revenue.includes('(')) {
+        const parts = sc.metrics.revenue.split('(');
+        revDelta = `<span class="metric-delta-shift">(${parts[1]}</span>`;
+      }
+      let stfDelta = '';
+      if (sc.metrics.staffing.includes('(')) {
+        const parts = sc.metrics.staffing.split('(');
+        stfDelta = `<span class="${sc.risk_heavy ? 'metric-delta-shift' : 'metric-delta-favorable'}">(${parts[1]}</span>`;
+      }
+
       html += `
         <div class="${cardClass}" onclick="window.appSelectScenario('${sc.id}')">
           ${sc.recommended ? '<span class="branch-tag-recommended">RECOMMENDED</span>' : ''}
-          <div class="branch-name">${sc.name}</div>
+          <div class="branch-header-top">
+            <div class="branch-name">${sc.name}</div>
+          </div>
           <div class="branch-type">${sc.scenario_type} · ${sc.description}</div>
 
           <div class="branch-metrics-list">
             <div class="branch-metric-row">
               <span class="branch-metric-name">Support Volume:</span>
-              <span class="branch-metric-val">${sc.metrics.support}</span>
+              <span class="branch-metric-val">
+                ${sc.metrics.support.split('(')[0]} ${supDelta}
+              </span>
             </div>
             <div class="branch-metric-row">
               <span class="branch-metric-name">Revenue:</span>
-              <span class="branch-metric-val">${sc.metrics.revenue}</span>
+              <span class="branch-metric-val">
+                ${sc.metrics.revenue.split('(')[0]} ${revDelta}
+              </span>
             </div>
             <div class="branch-metric-row">
               <span class="branch-metric-name">Staffing Load:</span>
-              <span class="branch-metric-val">${sc.metrics.staffing}</span>
+              <span class="branch-metric-val">
+                ${sc.metrics.staffing.split('(')[0]} ${stfDelta}
+              </span>
             </div>
           </div>
 
@@ -654,8 +679,8 @@
             <span>Confidence Range:</span>
             <strong style="color:var(--bone-white);">${sc.confidenceRange || '[71% – 77%]'}</strong>
           </div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:10px; width:100%;">
-            ${isSelected ? 'Active Scenario' : 'Compare'}
+          <button class="branch-cta-btn">
+            ${isSelected ? '● Active Scenario' : '⚔ Compare'}
           </button>
         </div>
       `;
@@ -664,7 +689,7 @@
     container.innerHTML = html;
   }
 
-  function renderComparisonChart() {
+function renderComparisonChart() {
     const svg = document.getElementById('scenarioChartSvg');
     if (!svg) return;
 
@@ -682,9 +707,9 @@
         };
 
     const width = 1000;
-    const height = 280;
-    const padX = 60;
-    const padY = 30;
+    const height = 300;
+    const padX = 65;
+    const padY = 35;
     const chartW = width - padX * 2;
     const chartH = height - padY * 2;
 
@@ -694,6 +719,7 @@
     let lowerBand = [];
     let yLabels = [];
     let narrative = '';
+    let metricUnit = '';
 
     if (metric === 'support') {
       baselinePts = [60, 180, 240, 220, 190, 150, 120, 100];
@@ -701,6 +727,7 @@
       upperBand   = [70, 105, 138, 152, 158, 145, 125, 108];
       lowerBand   = [50, 75, 102, 118, 122, 115, 95, 82];
       yLabels = ['7,000', '6,000 (Cap)', '5,000', '4,000'];
+      metricUnit = 'tickets';
       narrative = `The ${days}-day delay lowers the first-wave ticket peak by ${sim.supportDelta} (modeled: ${sim.supportVolume}), safely preventing capacity overflow while training completes.`;
     } else if (metric === 'revenue') {
       baselinePts = [40, 120, 190, 230, 240, 250, 260, 265];
@@ -708,6 +735,7 @@
       upperBand   = [35, 55, 90, 150, 208, 242, 265, 275];
       lowerBand   = [25, 35, 60, 120, 172, 208, 230, 245];
       yLabels = ['$5.5M', '$4.5M', '$3.5M', '$2.5M'];
+      metricUnit = '$';
       narrative = `Revenue recognition is postponed by ${sim.revenueDelta} into early next period; full year contribution variance recovers by Week 8 with improved retention.`;
     } else if (metric === 'staffing') {
       baselinePts = [80, 210, 240, 225, 180, 140, 110, 90];
@@ -715,6 +743,7 @@
       upperBand   = [80, 125, 148, 162, 155, 142, 118, 98];
       lowerBand   = [60, 95, 112, 128, 125, 118, 92, 72];
       yLabels = ['3.5k h', '3.0k h', '2.5k h', '2.0k h'];
+      metricUnit = 'hours';
       narrative = `Peak staffing hours drop by ${sim.staffingDelta} (modeled: ${sim.staffingLoad}), eliminating mandatory overtime costs and reducing agent turnover risk.`;
     } else {
       baselinePts = [70, 160, 200, 190, 160, 130, 100, 80];
@@ -722,6 +751,7 @@
       upperBand   = [70, 100, 130, 145, 140, 128, 108, 92];
       lowerBand   = [50, 70, 100, 115, 110, 102, 82, 68];
       yLabels = ['High', 'Moderate', 'Baseline', 'Low'];
+      metricUnit = 'index';
       narrative = `Second-order trade-offs stabilize within expected enterprise tolerances; modeled confidence stands at ${sim.confidenceRange}.`;
     }
 
@@ -731,83 +761,162 @@
     const stepX = chartW / 7;
     const toY = (val) => padY + chartH - (val / 280) * chartH;
 
-    const basePoints = baselinePts.map((v, i) => `${padX + i * stepX},${toY(v)}`).join(' ');
-    const scPoints = scenarioPts.map((v, i) => `${padX + i * stepX},${toY(v)}`).join(' ');
+    // Smooth cubic bezier path generator
+    const buildSmoothPath = (pts) => {
+      const points = pts.map((v, i) => ({ x: padX + i * stepX, y: toY(v) }));
+      let path = `M ${points[0].x},${points[0].y}`;
+      for (let i = 1; i < points.length; i++) {
+        const prev = points[i - 1];
+        const curr = points[i];
+        const cpx1 = prev.x + stepX * 0.45;
+        const cpx2 = curr.x - stepX * 0.45;
+        path += ` C ${cpx1},${prev.y} ${cpx2},${curr.y} ${curr.x},${curr.y}`;
+      }
+      return path;
+    };
 
+    const scenarioPath = buildSmoothPath(scenarioPts);
+    const baselinePath = buildSmoothPath(baselinePts);
+
+    // Smooth uncertainty band path
     let bandPath = `M ${padX},${toY(upperBand[0])}`;
     for (let i = 1; i < 8; i++) {
-      bandPath += ` L ${padX + i * stepX},${toY(upperBand[i])}`;
+      const px = padX + i * stepX;
+      const prevPx = padX + (i - 1) * stepX;
+      bandPath += ` C ${prevPx + stepX * 0.45},${toY(upperBand[i - 1])} ${px - stepX * 0.45},${toY(upperBand[i])} ${px},${toY(upperBand[i])}`;
     }
-    for (let i = 7; i >= 0; i--) {
-      bandPath += ` L ${padX + i * stepX},${toY(lowerBand[i])}`;
+    for (let i = 7; i >= 1; i--) {
+      const px = padX + i * stepX;
+      const nextPx = padX + (i - 1) * stepX;
+      bandPath += ` C ${px - stepX * 0.45},${toY(lowerBand[i])} ${nextPx + stepX * 0.45},${toY(lowerBand[i - 1])} ${nextPx},${toY(lowerBand[i - 1])}`;
     }
     bandPath += ' Z';
+
+    const weekLabels = ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 5', 'Wk 6', 'Wk 7', 'Wk 8'];
+
+    // Critical Cap indicator for support volume
+    const capY = padY + chartH * 0.33;
 
     let svgContent = `
       <defs>
         <linearGradient id="bandGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="rgba(167, 107, 255, 0.22)" />
-          <stop offset="100%" stop-color="rgba(167, 107, 255, 0.04)" />
+          <stop offset="0%" stop-color="rgba(167, 107, 255, 0.24)" />
+          <stop offset="60%" stop-color="rgba(167, 107, 255, 0.08)" />
+          <stop offset="100%" stop-color="rgba(167, 107, 255, 0.01)" />
         </linearGradient>
+        <linearGradient id="scenarioLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#8a4dff" />
+          <stop offset="50%" stop-color="#b688ff" />
+          <stop offset="100%" stop-color="#8a4dff" />
+        </linearGradient>
+        <filter id="chartLineGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="nodeOrbGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
 
-      <!-- Grid lines -->
-      <line x1="${padX}" y1="${padY}" x2="${width - padX}" y2="${padY}" stroke="rgba(255,255,255,0.06)" />
-      <line x1="${padX}" y1="${padY + chartH * 0.33}" x2="${width - padX}" y2="${padY + chartH * 0.33}" stroke="rgba(255,255,255,0.06)" />
-      <line x1="${padX}" y1="${padY + chartH * 0.66}" x2="${width - padX}" y2="${padY + chartH * 0.66}" stroke="rgba(255,255,255,0.06)" />
+      <!-- Occult Celestial Watermark Sigil -->
+      <g opacity="0.035" transform="translate(${width/2}, ${height/2})">
+        <circle r="90" fill="none" stroke="var(--electric-violet)" stroke-width="1.5" stroke-dasharray="6 4" />
+        <circle r="60" fill="none" stroke="var(--electric-violet)" stroke-width="1" />
+        <polygon points="0,-70 60,35 -60,35" fill="none" stroke="var(--electric-violet)" stroke-width="1" />
+        <polygon points="0,70 60,-35 -60,-35" fill="none" stroke="var(--electric-violet)" stroke-width="1" />
+      </g>
+
+      <!-- Vertical grid markers -->
+      ${weekLabels.map((_, idx) => `
+        <line x1="${padX + idx * stepX}" y1="${padY}" x2="${padX + idx * stepX}" y2="${padY + chartH}" stroke="rgba(255,255,255,0.035)" />
+      `).join('')}
+
+      <!-- Horizontal grid lines -->
+      <line x1="${padX}" y1="${padY}" x2="${width - padX}" y2="${padY}" stroke="rgba(255,255,255,0.05)" />
+      <line x1="${padX}" y1="${padY + chartH * 0.33}" x2="${width - padX}" y2="${padY + chartH * 0.33}" stroke="${metric === 'support' ? 'rgba(242, 140, 56, 0.35)' : 'rgba(255,255,255,0.05)'}" stroke-dasharray="${metric === 'support' ? '6 4' : 'none'}" />
+      <line x1="${padX}" y1="${padY + chartH * 0.66}" x2="${width - padX}" y2="${padY + chartH * 0.66}" stroke="rgba(255,255,255,0.05)" />
       <line x1="${padX}" y1="${padY + chartH}" x2="${width - padX}" y2="${padY + chartH}" stroke="rgba(255,255,255,0.12)" />
 
       <!-- Y Axis Labels -->
-      <text x="${padX - 8}" y="${padY + 4}" fill="var(--smoke)" font-size="10" text-anchor="end">${yLabels[0]}</text>
-      <text x="${padX - 8}" y="${padY + chartH * 0.33 + 4}" fill="var(--smoke)" font-size="10" text-anchor="end">${yLabels[1]}</text>
-      <text x="${padX - 8}" y="${padY + chartH * 0.66 + 4}" fill="var(--smoke)" font-size="10" text-anchor="end">${yLabels[2]}</text>
-      <text x="${padX - 8}" y="${padY + chartH}" fill="var(--smoke)" font-size="10" text-anchor="end">${yLabels[3]}</text>
+      <text x="${padX - 10}" y="${padY + 4}" fill="var(--smoke)" font-size="10.5" text-anchor="end" opacity="0.75">${yLabels[0]}</text>
+      <text x="${padX - 10}" y="${padY + chartH * 0.33 + 4}" fill="${metric === 'support' ? 'var(--ember-amber)' : 'var(--smoke)'}" font-size="10.5" font-weight="${metric === 'support' ? '700' : '400'}" text-anchor="end">${yLabels[1]}</text>
+      <text x="${padX - 10}" y="${padY + chartH * 0.66 + 4}" fill="var(--smoke)" font-size="10.5" text-anchor="end" opacity="0.75">${yLabels[2]}</text>
+      <text x="${padX - 10}" y="${padY + chartH + 4}" fill="var(--smoke)" font-size="10.5" text-anchor="end" opacity="0.75">${yLabels[3]}</text>
 
-      <!-- Uncertainty Band (Shaded area) -->
+      <!-- Smooth 90% Confidence Interval Band -->
       <path d="${bandPath}" fill="url(#bandGrad)" />
 
-      <!-- Baseline Line (Bone white dashed) -->
-      <polyline points="${basePoints}" fill="none" stroke="var(--bone-white)" stroke-width="2" stroke-dasharray="6 4" opacity="0.65" />
+      <!-- Baseline Line: Ghostly dashed bone-white -->
+      <path d="${baselinePath}" fill="none" stroke="rgba(232, 231, 223, 0.45)" stroke-width="2" stroke-dasharray="7 5" />
 
-      <!-- Selected Scenario Line (Electric Violet solid with glow) -->
-      <polyline points="${scPoints}" fill="none" stroke="var(--electric-violet)" stroke-width="3.5" filter="drop-shadow(0 0 8px rgba(167,107,255,0.5))" />
+      <!-- Active Scenario Line: Luminous electric violet stream -->
+      <path d="${scenarioPath}" fill="none" stroke="url(#scenarioLineGrad)" stroke-width="3.5" filter="url(#chartLineGlow)" />
 
-      <!-- X Axis Markers -->
-      ${['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 5', 'Wk 6', 'Wk 7', 'Wk 8'].map((lbl, idx) => `
-        <text x="${padX + idx * stepX}" y="${padY + chartH + 18}" fill="var(--smoke)" font-size="10.5" text-anchor="middle">${lbl}</text>
+      <!-- Baseline Data Markers -->
+      ${baselinePts.map((v, idx) => `
+        <circle cx="${padX + idx * stepX}" cy="${toY(v)}" r="2.8"
+          fill="rgba(232,231,223,0.35)" stroke="rgba(232,231,223,0.18)" stroke-width="1" />
+      `).join('')}
+
+      <!-- Scenario Data Markers with Pulse animation -->
+      ${scenarioPts.map((v, idx) => `
+        <g class="chart-data-point" transform="translate(${padX + idx * stepX}, ${toY(v)})"
+           data-week="${idx + 1}" data-val="${v}">
+          <circle r="4" fill="var(--electric-violet)" stroke="rgba(232,231,223,0.4)" stroke-width="1.5" filter="url(#nodeOrbGlow)">
+            <animate attributeName="r" values="3.8;5.2;3.8" dur="2.8s" begin="${idx * 0.35}s" repeatCount="indefinite" />
+          </circle>
+          <circle r="8" fill="rgba(167,107,255,0.12)">
+            <animate attributeName="r" values="6;12;6" dur="2.8s" begin="${idx * 0.35}s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.8s" begin="${idx * 0.35}s" repeatCount="indefinite" />
+          </circle>
+        </g>
+      `).join('')}
+
+      <!-- X Axis Week Markers -->
+      ${weekLabels.map((lbl, idx) => `
+        <text x="${padX + idx * stepX}" y="${padY + chartH + 22}" fill="var(--smoke)" font-size="10.5" font-weight="600" text-anchor="middle" opacity="0.8">${lbl}</text>
       `).join('')}
 
       <!-- Chart Legend in Corner -->
-      <g transform="translate(${width - 240}, 16)">
-        <line x1="0" y1="0" x2="20" y2="0" stroke="var(--bone-white)" stroke-width="2" stroke-dasharray="4 3" opacity="0.7" />
-        <text x="26" y="3" fill="var(--smoke)" font-size="10.5">Baseline Plan</text>
-        <line x1="110" y1="0" x2="130" y2="0" stroke="var(--electric-violet)" stroke-width="3" />
-        <text x="136" y="3" fill="var(--bone-white)" font-size="10.5">14-Day Delay (±90% CI)</text>
+      <g transform="translate(${width - 290}, 14)">
+        <line x1="0" y1="0" x2="22" y2="0" stroke="rgba(232,231,223,0.5)" stroke-width="2" stroke-dasharray="5 3" />
+        <text x="28" y="3" fill="var(--smoke)" font-size="10.5">Baseline Plan</text>
+        <circle cx="124" cy="0" r="4" fill="var(--electric-violet)" filter="url(#nodeOrbGlow)" />
+        <line x1="132" y1="0" x2="154" y2="0" stroke="var(--electric-violet)" stroke-width="3" />
+        <text x="160" y="3" fill="var(--bone-white)" font-weight="600" font-size="10.5">${days}-Day Delay (±90% CI)</text>
       </g>
     `;
 
     svg.innerHTML = svgContent;
   }
 
-  function renderAssumptionsList() {
+function renderAssumptionsList() {
     const container = document.getElementById('assumptionsList');
     if (!container) return;
 
     let html = '';
     appState.assumptions.forEach(asm => {
       let badgeClass = 'status-pill-smoke';
-      if (asm.status === 'validated') badgeClass = 'status-pill-lime';
-      if (asm.status === 'inferred') badgeClass = 'status-pill-violet';
-      if (asm.status === 'expired') badgeClass = 'status-pill-amber';
+      let itemClass = 'asm-user-provided';
+      if (asm.status === 'validated') { badgeClass = 'status-pill-lime'; itemClass = 'asm-validated'; }
+      if (asm.status === 'inferred') { badgeClass = 'status-pill-violet'; itemClass = 'asm-inferred'; }
+      if (asm.status === 'expired') { badgeClass = 'status-pill-amber'; itemClass = 'asm-expired'; }
 
       html += `
-        <div class="assumption-item" onclick="window.appInspectAssumption('${asm.id}')">
+        <div class="assumption-item ${itemClass}" onclick="window.appInspectAssumption('${asm.id}')">
           <div class="assumption-item-header">
             <span class="assumption-title">${asm.title}</span>
             <span class="status-pill ${badgeClass}">${asm.statusLabel}</span>
           </div>
           <div class="assumption-impact-note">${asm.impact}</div>
-          <div style="font-size:10.5px; color:var(--smoke); margin-top:6px;">Source: ${asm.source}</div>
+          <div class="assumption-source-line">Source: ${asm.source}</div>
         </div>
       `;
     });
@@ -1410,13 +1519,51 @@ function renderRankedTable() {
     });
 
     // Scenario Lab Slider
+    // Duplicate Branch action
+    const btnDup = document.getElementById('btnDuplicateBranch');
+    if (btnDup) {
+      btnDup.onclick = () => {
+        const days = appState.delaySliderVal || 14;
+        const newBranchId = `sc-custom-${Date.now()}`;
+        const newBranch = {
+          id: newBranchId,
+          decision_id: appState.activeDecisionId,
+          name: `${days}-day custom shift`,
+          scenario_type: 'Counterfactual',
+          description: `Custom ${days}-day simulation branch generated from Séance Dial`,
+          confidence: 0.72,
+          confidenceRange: '[69% – 75%]',
+          metrics: {
+            support: `5.4–5.8k tickets (−${Math.min(24, Math.round(days * 0.85))}%)`,
+            revenue: `$4.6–5.0M (−$0.${Math.round(days * 0.15)}M shift)`,
+            staffing: `2.6–2.9k hours (−${Math.min(16, Math.round(days * 0.55))}%)`
+          }
+        };
+        appState.scenarios.push(newBranch);
+        appState.selectedScenarioId = newBranchId;
+        renderBranchCards();
+        renderComparisonChart();
+        showToast(`Eldritch branch created: ${days}-day custom shift`, 'violet');
+      };
+    }
+
+    // Pin to Summary action
+    const btnPin = document.getElementById('btnPinBranch');
+    if (btnPin) {
+      btnPin.onclick = () => {
+        const currentSc = appState.scenarios.find(s => s.id === appState.selectedScenarioId);
+        const name = currentSc ? currentSc.name : 'Active Scenario';
+        showToast(`Scenario pinned to Executive Grimoire: ${name}`, 'success');
+      };
+    }
+
     const slider = document.getElementById('delayDaysSlider');
     if (slider) {
       slider.addEventListener('input', (e) => {
         const val = parseInt(e.target.value, 10);
         appState.delaySliderVal = val;
         const disp = document.getElementById('sliderValDisplay');
-        if (disp) disp.textContent = `${val} Days`;
+        if (disp) disp.textContent = `${val}`;
         
         const badge = document.getElementById('scenarioUpdateBadge');
         if (badge) {
@@ -1591,6 +1738,7 @@ function renderRankedTable() {
   async function init() {
     setupEventListeners();
     await ApiClient.loadAllInitialData();
+    renderLabSection();
     renderImpactSection();
     handleRoute(window.location.hash);
   }

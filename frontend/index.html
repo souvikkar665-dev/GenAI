@@ -1098,7 +1098,7 @@
           </div>
           <div class="branch-confidence-box"><span>Confidence Range:</span><strong style="color:var(--bone-white);">[73%
               – 78%]</strong></div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:10px; width:100%;">Compare</button>
+          <button class="branch-cta-btn">⚔ Compare</button>
         </div>
 
         <!-- Recommended 14-day delay -->
@@ -1116,7 +1116,7 @@
           </div>
           <div class="branch-confidence-box"><span>Confidence Range:</span><strong style="color:var(--bone-white);">[71%
               – 77%]</strong></div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:10px; width:100%;">Active Scenario</button>
+          <button class="branch-cta-btn">● Active Scenario</button>
         </div>
 
         <!-- Counterfactual 7-day delay -->
@@ -1133,7 +1133,7 @@
           </div>
           <div class="branch-confidence-box"><span>Confidence Range:</span><strong style="color:var(--bone-white);">[67%
               – 74%]</strong></div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:10px; width:100%;">Compare</button>
+          <button class="branch-cta-btn">⚔ Compare</button>
         </div>
 
         <!-- Risk-heavy Card -->
@@ -1151,7 +1151,7 @@
           </div>
           <div class="branch-confidence-box"><span>Confidence Range:</span><strong style="color:var(--bone-white);">[65%
               – 72%]</strong></div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:10px; width:100%;">Compare</button>
+          <button class="branch-cta-btn">⚔ Compare</button>
         </div>
       </div>
 
@@ -1220,25 +1220,29 @@
         </div>
       </div>
 
-      <!-- Interactive Branch Controls & Sensitivity Slider -->
-      <div class="card" style="margin-bottom:24px; padding:18px 24px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
-          <div style="display:flex; align-items:center; gap:20px;">
-            <label for="delayDaysSlider"
-              style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--smoke);">
-              Adjust Shift Duration: <strong style="color:var(--bone-white);" id="sliderValDisplay">14
-                Days</strong>
-            </label>
+      <!-- Interactive Branch Controls & Sensitivity Slider — Séance Dial Altar -->
+      <div class="scenario-controls-card">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+          <div style="display:flex; align-items:center; gap:22px; flex-wrap:wrap;">
+            <div>
+              <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--smoke); margin-bottom:5px;">
+                Adjust Shift Duration
+              </div>
+              <div style="display:flex; align-items:baseline; gap:8px;">
+                <span class="slider-val-display" id="sliderValDisplay">14</span>
+                <span style="font-size:12px; color:var(--smoke); font-weight:700; letter-spacing:0.06em;">DAYS</span>
+              </div>
+            </div>
             <input type="range" id="delayDaysSlider" min="3" max="28" value="14" step="1"
-              style="accent-color:var(--electric-violet); width:180px; cursor:pointer;">
+              class="seance-slider" aria-label="Adjust shift duration in days">
             <span class="status-pill status-pill-violet" id="scenarioUpdateBadge"
               style="opacity:0; transition:opacity 0.3s ease;">Scenario Updated</span>
           </div>
 
-          <div style="display:flex; align-items:center; gap:12px;">
-            <button class="btn btn-ghost btn-sm" id="btnDuplicateBranch">Duplicate Branch</button>
-            <button class="btn btn-ghost btn-sm" id="btnPinBranch">Pin to Summary</button>
-            <a href="#impact" class="btn btn-primary-violet btn-sm">Inspect Impact Map →</a>
+          <div class="scenario-action-btns">
+            <button class="btn-seance" id="btnDuplicateBranch">Duplicate Branch</button>
+            <button class="btn-seance" id="btnPinBranch">Pin to Summary</button>
+            <a href="#impact" class="btn-seance-primary">Inspect Impact Map →</a>
           </div>
         </div>
       </div>
@@ -1262,7 +1266,7 @@
         </div>
 
         <div class="assumptions-list" id="assumptionsList">
-          <div class="assumption-item" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-1')">
+          <div class="assumption-item asm-validated" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-1')">
             <div class="assumption-item-header">
               <span class="assumption-title">Regional ticket volume per active customer</span>
               <span class="status-pill status-pill-lime">Validated in data</span>
@@ -1273,7 +1277,7 @@
             </div>
           </div>
 
-          <div class="assumption-item" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-2')">
+          <div class="assumption-item asm-user-provided" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-2')">
             <div class="assumption-item-header">
               <span class="assumption-title">Tier 2 agent certification curve</span>
               <span class="status-pill status-pill-smoke">User Provided</span>
@@ -1284,7 +1288,7 @@
             </div>
           </div>
 
-          <div class="assumption-item" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-3')">
+          <div class="assumption-item asm-inferred" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-3')">
             <div class="assumption-item-header">
               <span class="assumption-title">Customer conversion delay elasticity</span>
               <span class="status-pill status-pill-violet">Inferred</span>
@@ -1295,7 +1299,7 @@
             </div>
           </div>
 
-          <div class="assumption-item" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-4')">
+          <div class="assumption-item asm-expired" onclick="window.appInspectAssumption && window.appInspectAssumption('asm-4')">
             <div class="assumption-item-header">
               <span class="assumption-title">Competitor launch window overlap</span>
               <span class="status-pill status-pill-amber">Expired</span>

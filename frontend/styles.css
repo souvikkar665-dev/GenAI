@@ -1485,100 +1485,252 @@ body::before {
 }
 
 /* ==========================================================================
-   SECTION 03: SCENARIO LAB (EXPLORE COUNTERFACTUAL FUTURES)
+   SECTION 03: SCENARIO LAB — S+++ CONJURING SÉANCE EDITION
+   Haunted ritual chamber, spectral mist, cursed prophecy charts,
+   eldritch branch cards with breathing auras, gothic assumption grimoire
    ========================================================================== */
+
+/* ── Lab Header Banner: Cursed Parchment ── */
 .lab-header-banner {
-  background: linear-gradient(180deg, rgba(28, 62, 62, 0.5) 0%, rgba(18, 43, 45, 0.75) 100%);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(
+    180deg,
+    rgba(18, 43, 45, 0.72) 0%,
+    rgba(11, 16, 19, 0.90) 100%
+  );
+  border: 1px solid rgba(167, 107, 255, 0.22);
   border-radius: var(--radius-md);
-  padding: 24px;
-  margin-bottom: 24px;
+  padding: 26px 28px 22px;
+  margin-bottom: 26px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(167, 107, 255, 0.25);
+  backdrop-filter: blur(14px);
 }
 
+.lab-header-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 700px 140px at 50% 100%, rgba(167, 107, 255, 0.10) 0%, transparent 70%),
+    radial-gradient(circle 220px at 8% 20%, rgba(38, 180, 180, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.lab-header-banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(167, 107, 255, 0.3) 20%,
+    rgba(167, 107, 255, 0.8) 50%,
+    rgba(167, 107, 255, 0.3) 80%,
+    transparent 100%
+  );
+  animation: bannerLineFlicker 3.8s ease-in-out infinite;
+}
+
+@keyframes bannerLineFlicker {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+  75% { opacity: 0.25; }
+}
+
+/* ── Extrapolation Warning: Ember Curse Notice ── */
 .extrapolation-warning {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 8px;
+  padding: 6px 14px;
   background: rgba(242, 140, 56, 0.12);
-  border: 1px solid rgba(242, 140, 56, 0.35);
+  border: 1px solid rgba(242, 140, 56, 0.38);
   border-radius: var(--radius-pill);
   font-size: 11px;
   color: var(--ember-amber);
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 14px;
+  position: relative;
+  animation: warningPulse 3.2s ease-in-out infinite;
 }
 
-/* Branch Cards Grid (1 Baseline + up to 3 Counterfactuals) */
+@keyframes warningPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(242, 140, 56, 0); }
+  50% { box-shadow: 0 0 14px 2px rgba(242, 140, 56, 0.22); }
+}
+
+/* ── Branch Cards Grid: Spectral Prophecy Cards ── */
 .branches-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
 
 .branch-card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(
+    170deg,
+    rgba(18, 43, 45, 0.78) 0%,
+    rgba(11, 16, 19, 0.92) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
-  padding: 18px;
+  padding: 20px 18px 18px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Ornate corner glyphs on branch card */
+.branch-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(167, 107, 255, 0.35), transparent);
+  opacity: 0;
+  transition: opacity 0.32s ease;
+}
+
+.branch-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  background: radial-gradient(ellipse 180px 140px at 50% 0%, rgba(167, 107, 255, 0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.32s ease;
+  pointer-events: none;
 }
 
 .branch-card:hover {
-  border-color: var(--border-medium);
-  transform: translateY(-2px);
+  border-color: rgba(167, 107, 255, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 22px rgba(167, 107, 255, 0.12);
 }
 
+.branch-card:hover::before {
+  opacity: 1;
+}
+
+.branch-card:hover::after {
+  opacity: 1;
+}
+
+/* Active branch: Spectral violet aura */
 .branch-card.branch-active {
-  border-color: var(--electric-violet) !important;
-  box-shadow: 0 0 24px var(--glow-violet);
-  background: linear-gradient(180deg, rgba(28, 62, 62, 0.75) 0%, rgba(18, 43, 45, 0.95) 100%);
+  border-color: rgba(167, 107, 255, 0.65) !important;
+  box-shadow:
+    0 0 32px rgba(167, 107, 255, 0.25),
+    0 0 64px rgba(167, 107, 255, 0.10),
+    inset 0 0 32px rgba(167, 107, 255, 0.07);
+  background: linear-gradient(
+    170deg,
+    rgba(28, 62, 62, 0.85) 0%,
+    rgba(18, 35, 52, 0.98) 100%
+  );
 }
 
+.branch-card.branch-active::before {
+  opacity: 1;
+  background: linear-gradient(90deg, transparent, rgba(167, 107, 255, 0.9), transparent);
+  animation: activeCardGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes activeCardGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Baseline branch: Ghostly bone-white edge */
 .branch-card.branch-baseline {
-  border-color: rgba(232, 231, 223, 0.25);
+  border-color: rgba(232, 231, 223, 0.20);
 }
 
+.branch-card.branch-baseline:hover {
+  border-color: rgba(232, 231, 223, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 18px rgba(232, 231, 223, 0.09);
+}
+
+/* Risk-amber branch: Cursed fire edge */
+.branch-card.card-risk-amber {
+  border-color: rgba(242, 140, 56, 0.38);
+}
+
+.branch-card.card-risk-amber:hover {
+  border-color: rgba(242, 140, 56, 0.65);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(242, 140, 56, 0.16);
+}
+
+.branch-card.card-risk-amber::before {
+  background: linear-gradient(90deg, transparent, rgba(242, 140, 56, 0.7), transparent) !important;
+}
+
+/* ── Recommended Tag: Spectral Seal ── */
 .branch-tag-recommended {
   position: absolute;
   top: 12px;
   right: 12px;
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
-  letter-spacing: 0.14em;
-  background: rgba(167, 107, 255, 0.2);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(167, 107, 255, 0.18);
   color: var(--electric-violet);
-  border: 1px solid var(--border-violet);
-  padding: 2px 7px;
+  border: 1px solid rgba(167, 107, 255, 0.5);
+  padding: 3px 9px;
   border-radius: var(--radius-pill);
+  box-shadow: 0 0 14px rgba(167, 107, 255, 0.25);
+  animation: sealPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes sealPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(167, 107, 255, 0.22); }
+  50% { box-shadow: 0 0 22px rgba(167, 107, 255, 0.45); }
+}
+
+/* ── Branch Card Typography & Header ── */
+.branch-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }
 
 .branch-name {
   font-size: 15px;
   font-weight: 700;
   color: var(--bone-white);
-  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 18px rgba(232, 231, 223, 0.10);
 }
 
 .branch-type {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--smoke);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 12px;
+  letter-spacing: 0.10em;
+  margin-bottom: 14px;
+  line-height: 1.4;
+  opacity: 0.85;
 }
 
+/* ── Branch Metrics: Runic Data Lines ── */
 .branch-metrics-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   margin-bottom: 14px;
   flex: 1;
 }
@@ -1587,35 +1739,113 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 11.5px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.branch-metric-row:last-child {
+  border-bottom: none;
 }
 
 .branch-metric-name {
   color: var(--smoke);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
 }
 
 .branch-metric-val {
   font-weight: 700;
   color: var(--bone-white);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
+.branch-metric-val .metric-delta-favorable {
+  color: var(--spectral-lime);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.branch-metric-val .metric-delta-shift {
+  color: var(--ember-amber);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* ── Confidence Box: Prophecy Certainty Gauge ── */
 .branch-confidence-box {
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 11px;
+  padding: 10px 0 6px;
+  border-top: 1px solid rgba(167, 107, 255, 0.14);
+  font-size: 10.5px;
   color: var(--smoke);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Comparison Area */
+/* Card Button: Haunted Rune CTA */
+.branch-cta-btn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.24s ease;
+  background: rgba(11, 16, 19, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--bone-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.branch-card:hover .branch-cta-btn {
+  border-color: rgba(167, 107, 255, 0.4);
+  background: rgba(167, 107, 255, 0.12);
+  color: var(--bone-white);
+}
+
+.branch-card.branch-active .branch-cta-btn {
+  background: linear-gradient(135deg, rgba(167, 107, 255, 0.28), rgba(167, 107, 255, 0.14));
+  border-color: rgba(167, 107, 255, 0.6);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(167, 107, 255, 0.25);
+}
+
+/* ── Comparison Container: Séance Projection Chamber ── */
 .comparison-container {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(
+    180deg,
+    rgba(18, 43, 45, 0.74) 0%,
+    rgba(11, 16, 19, 0.92) 100%
+  );
+  border: 1px solid rgba(167, 107, 255, 0.20);
   border-radius: var(--radius-md);
-  padding: 24px;
-  margin-bottom: 24px;
+  padding: 26px 28px;
+  margin-bottom: 26px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 42px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(14px);
+}
+
+.comparison-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 220px at 50% 90%, rgba(167, 107, 255, 0.06) 0%, transparent 70%),
+    radial-gradient(circle 300px at 90% 10%, rgba(38, 180, 180, 0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .comparison-header-bar {
@@ -1624,42 +1854,55 @@ body::before {
   justify-content: space-between;
   margin-bottom: 20px;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── Metric Switcher: Ritual Rune Selector ── */
 .metric-switcher-pills {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: var(--surface-well);
+  gap: 4px;
+  background: rgba(11, 16, 19, 0.75);
   padding: 4px;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .metric-pill-btn {
   background: transparent;
   border: none;
   color: var(--smoke);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 5px 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 6px 14px;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.24s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  letter-spacing: 0.04em;
+}
+
+.metric-pill-btn:hover {
+  color: var(--bone-white);
+  background: rgba(167, 107, 255, 0.12);
 }
 
 .metric-pill-btn.active {
-  background: var(--deep-teal);
+  background: linear-gradient(135deg, rgba(28, 62, 62, 0.95), rgba(18, 43, 45, 0.98));
   color: var(--bone-white);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.4), 0 0 12px rgba(167, 107, 255, 0.22);
+  border: 1px solid rgba(167, 107, 255, 0.35);
 }
 
-/* SVG Chart Canvas */
+/* ── SVG Chart Canvas: Cursed Prophecy Scroll ── */
 .chart-canvas-wrap {
   width: 100%;
-  height: 280px;
+  height: 300px;
   position: relative;
+  z-index: 1;
 }
 
 .chart-svg {
@@ -1668,64 +1911,368 @@ body::before {
   overflow: visible;
 }
 
-.chart-explanation-narrative {
-  margin-top: 18px;
-  padding: 14px 18px;
-  background: rgba(28, 62, 62, 0.5);
-  border-left: 3px solid var(--electric-violet);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  font-size: 13.5px;
-  color: var(--bone-white);
-  line-height: 1.5;
+/* Animated data point markers */
+.chart-data-point {
+  cursor: pointer;
+  transition: r 0.2s ease, filter 0.2s ease;
 }
 
-/* Assumptions Drawer */
-.assumptions-box {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+.chart-data-point:hover {
+  filter: drop-shadow(0 0 12px rgba(167, 107, 255, 0.85)) !important;
+}
+
+/* Chart interactive tooltip */
+.chart-tooltip-box {
+  position: absolute;
+  background: rgba(11, 16, 19, 0.94);
+  border: 1px solid rgba(167, 107, 255, 0.45);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 11.5px;
+  color: var(--bone-white);
+  pointer-events: none;
+  z-index: 20;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 16px rgba(167, 107, 255, 0.18);
+  opacity: 0;
+  transform: translate(-50%, -120%);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  white-space: nowrap;
+}
+
+.chart-tooltip-box.visible {
+  opacity: 1;
+  transform: translate(-50%, -100%);
+}
+
+/* ── Chart Narrative: Spectral Prophecy Text ── */
+.chart-explanation-narrative {
+  margin-top: 18px;
+  padding: 16px 22px;
+  background: linear-gradient(
+    90deg,
+    rgba(167, 107, 255, 0.10) 0%,
+    rgba(18, 43, 45, 0.55) 30%,
+    rgba(18, 43, 45, 0.55) 100%
+  );
+  border-left: 3px solid var(--electric-violet);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13px;
+  color: var(--bone-white);
+  line-height: 1.55;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.chart-explanation-narrative::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--electric-violet);
+  box-shadow: 0 0 14px rgba(167, 107, 255, 0.55);
+}
+
+/* ── Sensitivity Slider Controls: Séance Dial Altar ── */
+.scenario-controls-card {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 43, 45, 0.68) 0%,
+    rgba(11, 16, 19, 0.88) 100%
+  );
+  border: 1px solid rgba(167, 107, 255, 0.16);
   border-radius: var(--radius-md);
-  padding: 22px;
+  padding: 20px 26px;
+  margin-bottom: 26px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+}
+
+/* Custom range slider: Ectoplasm plasma track */
+.seance-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 200px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(167, 107, 255, 0.45) 0%,
+    rgba(167, 107, 255, 0.20) 100%
+  );
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.seance-slider:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(167, 107, 255, 0.65) 0%,
+    rgba(167, 107, 255, 0.35) 100%
+  );
+}
+
+.seance-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--electric-violet);
+  border: 2px solid rgba(232, 231, 223, 0.4);
+  box-shadow: 0 0 18px rgba(167, 107, 255, 0.65), 0 0 6px rgba(167, 107, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.seance-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 28px rgba(167, 107, 255, 0.9), 0 0 10px #fff;
+}
+
+.seance-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--electric-violet);
+  border: 2px solid rgba(232, 231, 223, 0.4);
+  box-shadow: 0 0 18px rgba(167, 107, 255, 0.65);
+  cursor: pointer;
+}
+
+.seance-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(167, 107, 255, 0.45) 0%, rgba(167, 107, 255, 0.20) 100%);
+}
+
+/* Slider value display */
+.slider-val-display {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--electric-violet);
+  text-shadow: 0 0 18px rgba(167, 107, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+  min-width: 36px;
+  text-align: right;
+  line-height: 1;
+}
+
+/* Action buttons row */
+.scenario-action-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-seance {
+  background: rgba(167, 107, 255, 0.10);
+  border: 1px solid rgba(167, 107, 255, 0.28);
+  color: var(--electric-violet);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.24s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn-seance:hover {
+  background: rgba(167, 107, 255, 0.22);
+  border-color: rgba(167, 107, 255, 0.55);
+  box-shadow: 0 0 18px rgba(167, 107, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.btn-seance-primary {
+  background: linear-gradient(135deg, rgba(167, 107, 255, 0.32), rgba(167, 107, 255, 0.18));
+  border: 1px solid rgba(167, 107, 255, 0.55);
+  color: var(--bone-white);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.24s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 16px rgba(167, 107, 255, 0.18);
+}
+
+.btn-seance-primary:hover {
+  background: linear-gradient(135deg, rgba(167, 107, 255, 0.45), rgba(167, 107, 255, 0.28));
+  box-shadow: 0 0 24px rgba(167, 107, 255, 0.38);
+  transform: translateY(-1px);
+}
+
+/* ── Assumptions Box: Gothic Grimoire ── */
+.assumptions-box {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 43, 45, 0.70) 0%,
+    rgba(11, 16, 19, 0.90) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 24px 26px;
+  position: relative;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.40);
+  backdrop-filter: blur(12px);
+}
+
+.assumptions-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(182, 217, 58, 0.4) 25%,
+    rgba(167, 107, 255, 0.4) 50%,
+    rgba(242, 140, 56, 0.4) 75%,
+    transparent 100%
+  );
 }
 
 .assumptions-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 14px;
+  gap: 14px;
+  margin-top: 18px;
 }
 
+/* ── Individual Assumption Card: Ritual Tome Entry ── */
 .assumption-item {
-  background: var(--surface-well);
-  border: 1px solid var(--border-subtle);
+  background: rgba(11, 16, 19, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-sm);
-  padding: 12px 14px;
+  padding: 14px 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.assumption-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: rgba(167, 107, 255, 0.4);
+  opacity: 0.5;
+  transition: all 0.28s ease;
 }
 
 .assumption-item:hover {
-  border-color: var(--border-violet);
-  background: rgba(28, 62, 62, 0.5);
+  border-color: rgba(167, 107, 255, 0.35);
+  background: rgba(18, 43, 45, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.assumption-item:hover::before {
+  width: 4px;
+  opacity: 1;
+}
+
+/* Status-specific left indicator spine */
+.assumption-item.asm-validated::before {
+  background: var(--spectral-lime);
+  opacity: 0.85;
+}
+.assumption-item.asm-validated:hover::before {
+  box-shadow: 0 0 12px var(--spectral-lime);
+}
+
+.assumption-item.asm-inferred::before {
+  background: var(--electric-violet);
+  opacity: 0.85;
+}
+.assumption-item.asm-inferred:hover::before {
+  box-shadow: 0 0 12px var(--electric-violet);
+}
+
+.assumption-item.asm-user-provided::before {
+  background: var(--smoke);
+  opacity: 0.6;
+}
+
+.assumption-item.asm-expired::before {
+  background: var(--ember-amber);
+  opacity: 0.9;
+  animation: expiredFlicker 2.2s ease-in-out infinite;
+}
+
+@keyframes expiredFlicker {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.35; }
 }
 
 .assumption-item-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  gap: 8px;
 }
 
 .assumption-title {
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--bone-white);
+  line-height: 1.35;
 }
 
 .assumption-impact-note {
   font-size: 11.5px;
   color: var(--smoke);
+  line-height: 1.45;
 }
 
+.assumption-source-line {
+  font-size: 10px;
+  color: rgba(154, 167, 168, 0.7);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Moon Arc Decoration Enhancement ── */
+.moon-arc-container {
+  position: absolute;
+  top: -20px;
+  right: 5%;
+  width: 320px;
+  height: 140px;
+  pointer-events: none;
+  opacity: 0.45;
+  animation: moonFloat 6s ease-in-out infinite;
+}
+
+@keyframes moonFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50% { transform: translateY(-6px); opacity: 0.70; }
+}
+
+.moon-arc-svg {
+  width: 100%;
+  height: 100%;
+}
 /* ==========================================================================
    SECTION 04: IMPACT MAP (S++ SUPERNATURAL CAUSALITY WEB)
    Theme-matched: Obsidian-teal frosted glass, spectral glows, occult radar
@@ -3531,6 +4078,15 @@ body::before {
     .impact-layout {
       grid-template-columns: 1fr;
       gap: 20px;
+    }
+
+    .branches-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .assumptions-list {
+      grid-template-columns: 1fr;
     }
 
     .splus-hero-main-row {
