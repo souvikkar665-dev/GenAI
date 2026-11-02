@@ -1,1 +1,1 @@
-"""Small standard-library data shapes; PostgreSQL DDL remains canonical."""
+"""Pydantic data models for the backend."""

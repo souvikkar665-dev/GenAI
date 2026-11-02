@@ -1,2 +1,6 @@
-# Runtime database driver; application code remains Python and SQL.
+# Runtime database driver
 psycopg[binary]>=3.2,<4
+
+# API framework and server
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
