@@ -266,6 +266,7 @@
     async fetchWithFallback(url, fallbackData) {
       // If opened directly via file://, bypass network request to prevent CORS error
       if (window.location.protocol === 'file:') {
+        showToast('Local illustrative data is shown. Run the Python server to connect the backend.', 'warning');
         return fallbackData;
       }
       try {
@@ -273,30 +274,29 @@
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
       } catch (err) {
-        console.info(`API notice for ${url}: running in local illustrative demo mode.`);
+        console.warn(`API notice for ${url}: running in local illustrative demo mode.`, err);
+        showToast(`Backend unavailable for ${url}; showing illustrative data instead.`, 'warning');
         return fallbackData;
       }
     },
 
-    async postWithFallback(url, body, fallbackResponse) {
+    async post(url, body) {
       if (window.location.protocol === 'file:') {
-        return fallbackResponse;
+        throw new Error('The backend cannot be reached from file://. Run python3 main.py and open the served page.');
       }
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        });
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || `HTTP ${res.status}`);
-        }
-        return await res.json();
-      } catch (err) {
-        console.warn(`POST API fallback for ${url}:`, err.message);
-        return fallbackResponse;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body || {})
+      });
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const detail = Array.isArray(result.detail)
+          ? result.detail.map(item => item.msg || item.message || '').filter(Boolean).join('; ')
+          : result.detail;
+        throw new Error(result.error || detail || `HTTP ${res.status}`);
       }
+      return result;
     },
 
     async loadAllInitialData() {
@@ -309,8 +309,19 @@
         hideLoadingStage();
 
         if (portfolio && typeof portfolio === 'object') appState.portfolio = portfolio;
-        if (Array.isArray(decisions) && decisions.length) appState.decisions = decisions;
-        if (Array.isArray(scenarios) && scenarios.length) appState.scenarios = scenarios;
+        if (Array.isArray(decisions) && decisions.length) {
+          appState.decisions = decisions;
+          if (!decisions.some(row => String(row.id) === String(appState.activeDecisionId))) {
+            appState.activeDecisionId = decisions[0].id;
+          }
+        }
+        if (Array.isArray(scenarios) && scenarios.length) {
+          appState.scenarios = scenarios;
+          if (!scenarios.some(row => String(row.id) === String(appState.selectedScenarioId))) {
+            const matchingScenario = scenarios.find(row => String(row.decision_id) === String(appState.activeDecisionId));
+            if (matchingScenario) appState.selectedScenarioId = matchingScenario.id;
+          }
+        }
       }
     }
   };
@@ -574,28 +585,33 @@ function renderDataReadinessList() {
     }
   }
 
+  function parseListInput(value) {
+    return String(value || '').split(/[;,\n]/).map(item => item.trim()).filter(Boolean);
+  }
+
   function validateStudioCards() {
     const chg = document.getElementById('inputChange')?.value.trim();
     const obj = document.getElementById('inputObjective')?.value.trim();
     const cst = document.getElementById('inputConstraints')?.value.trim();
     const hrz = document.getElementById('inputHorizon')?.value.trim();
+    const metrics = document.getElementById('inputMetrics')?.value.trim();
 
     const missingMsg = document.getElementById('studioValidationMsg');
     const continueBtn = document.getElementById('btnContinueToLab');
 
-    const isComplete = Boolean(chg && obj && cst && hrz);
+    const isComplete = Boolean(chg && obj && cst && hrz && metrics);
 
     if (!isComplete) {
       if (missingMsg) {
         missingMsg.style.display = 'inline-flex';
-        missingMsg.textContent = '⚠ Complete all 4 definition cards to generate scenario branches';
+        missingMsg.textContent = '⚠ Complete all 4 definition cards and add at least one metric';
       }
       if (continueBtn) {
         continueBtn.style.opacity = '0.65';
         continueBtn.style.pointerEvents = 'auto';
         continueBtn.onclick = (e) => {
           e.preventDefault();
-          showToast('Please fill out all 4 decision definition cards before proceeding to Scenario Lab.', 'warning');
+          showToast('Complete the decision definition and provide at least one metric before proceeding.', 'warning');
         };
       }
     } else {
@@ -623,6 +639,10 @@ function renderBranchCards() {
 
     let html = '';
     appState.scenarios.forEach(sc => {
+      const metrics = sc.metrics || {};
+      const support = metrics.support || 'Not modeled';
+      const revenue = metrics.revenue || 'Not modeled';
+      const staffing = metrics.staffing || 'Not modeled';
       const isSelected = sc.id === appState.selectedScenarioId;
       const isBaseline = sc.scenario_type === 'Baseline';
       let cardClass = 'branch-card';
@@ -632,18 +652,18 @@ function renderBranchCards() {
 
       // Parse delta highlights if available
       let supDelta = '';
-      if (sc.metrics.support.includes('(')) {
-        const parts = sc.metrics.support.split('(');
+      if (support.includes('(')) {
+        const parts = support.split('(');
         supDelta = `<span class="metric-delta-favorable">(${parts[1]}</span>`;
       }
       let revDelta = '';
-      if (sc.metrics.revenue.includes('(')) {
-        const parts = sc.metrics.revenue.split('(');
+      if (revenue.includes('(')) {
+        const parts = revenue.split('(');
         revDelta = `<span class="metric-delta-shift">(${parts[1]}</span>`;
       }
       let stfDelta = '';
-      if (sc.metrics.staffing.includes('(')) {
-        const parts = sc.metrics.staffing.split('(');
+      if (staffing.includes('(')) {
+        const parts = staffing.split('(');
         stfDelta = `<span class="${sc.risk_heavy ? 'metric-delta-shift' : 'metric-delta-favorable'}">(${parts[1]}</span>`;
       }
 
@@ -659,26 +679,26 @@ function renderBranchCards() {
             <div class="branch-metric-row">
               <span class="branch-metric-name">Support Volume:</span>
               <span class="branch-metric-val">
-                ${sc.metrics.support.split('(')[0]} ${supDelta}
+                ${support.split('(')[0]} ${supDelta}
               </span>
             </div>
             <div class="branch-metric-row">
               <span class="branch-metric-name">Revenue:</span>
               <span class="branch-metric-val">
-                ${sc.metrics.revenue.split('(')[0]} ${revDelta}
+                ${revenue.split('(')[0]} ${revDelta}
               </span>
             </div>
             <div class="branch-metric-row">
               <span class="branch-metric-name">Staffing Load:</span>
               <span class="branch-metric-val">
-                ${sc.metrics.staffing.split('(')[0]} ${stfDelta}
+                ${staffing.split('(')[0]} ${stfDelta}
               </span>
             </div>
           </div>
 
           <div class="branch-confidence-box">
             <span>Confidence Range:</span>
-            <strong style="color:var(--bone-white);">${sc.confidenceRange || '[71% – 77%]'}</strong>
+            <strong style="color:var(--bone-white);">${sc.confidenceRange || (sc.confidence ? `${Math.round(sc.confidence * 100)}%` : 'Not modeled')}</strong>
           </div>
           <button class="branch-cta-btn">
             ${isSelected ? '● Active Scenario' : '⚔ Compare'}
@@ -757,7 +777,7 @@ function renderComparisonChart() {
     }
 
     const narrativeEl = document.getElementById('chartNarrativeText');
-    if (narrativeEl) narrativeEl.innerHTML = `<strong>Executive Narrative:</strong> ${narrative}`;
+    if (narrativeEl) narrativeEl.innerHTML = `<strong>Illustrative client-side sensitivity only — not a backend/model prediction.</strong><br><strong>Executive Narrative:</strong> ${narrative}`;
 
     const stepX = chartW / 7;
     const toY = (val) => padY + chartH - (val / 280) * chartH;
@@ -1485,7 +1505,7 @@ function renderRankedTable() {
     });
 
     // Decision Studio Definitions Input Listeners
-    ['inputChange', 'inputObjective', 'inputConstraints', 'inputHorizon'].forEach(id => {
+    ['inputChange', 'inputObjective', 'inputConstraints', 'inputHorizon', 'inputMetrics'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', validateStudioCards);
     });
@@ -1517,9 +1537,37 @@ function renderRankedTable() {
       document.getElementById('whyModalScrim')?.classList.remove('open');
     });
 
-    // Studio Save Draft Button
-    document.getElementById('btnSaveDraftStudio')?.addEventListener('click', () => {
-      showToast('Decision framing draft saved to enterprise store', 'success');
+    // Studio Save Draft Button — uses the existing decision-create route.
+    document.getElementById('btnSaveDraftStudio')?.addEventListener('click', async () => {
+      const payload = {
+        title: document.getElementById('extractedTitle')?.value.trim() || '',
+        original_question: document.getElementById('boardroomQuestionInput')?.value.trim() || '',
+        change_description: document.getElementById('inputChange')?.value.trim() || '',
+        objective: document.getElementById('inputObjective')?.value.trim() || '',
+        constraints: parseListInput(document.getElementById('inputConstraints')?.value),
+        time_horizon: document.getElementById('inputHorizon')?.value.trim() || '',
+        metrics: parseListInput(document.getElementById('inputMetrics')?.value),
+        business_unit: appState.decisions.find(row => String(row.id) === String(appState.activeDecisionId))?.business_unit || 'Corporate'
+      };
+      if (!payload.title || !payload.original_question || !payload.objective || !payload.time_horizon || !payload.constraints.length || !payload.metrics.length) {
+        showToast('Complete the required decision fields, including at least one metric, before saving.', 'warning');
+        return;
+      }
+      try {
+        showLoadingStage('Saving decision draft...');
+        const created = await ApiClient.post('/api/decisions', payload);
+        if (created && created.id) {
+          appState.decisions.unshift(created);
+          renderHomeSection();
+          showToast('Decision draft saved to the connected backend.', 'success');
+        } else {
+          throw new Error('The backend did not return a saved decision record.');
+        }
+      } catch (err) {
+        showToast(`Decision draft was not saved: ${err.message}`, 'warning');
+      } finally {
+        hideLoadingStage();
+      }
     });
 
     // Scenario Lab Metric Switcher
@@ -1538,28 +1586,30 @@ function renderRankedTable() {
     // Duplicate Branch action
     const btnDup = document.getElementById('btnDuplicateBranch');
     if (btnDup) {
-      btnDup.onclick = () => {
+      btnDup.onclick = async () => {
         const days = appState.delaySliderVal || 14;
-        const newBranchId = `sc-custom-${Date.now()}`;
-        const newBranch = {
-          id: newBranchId,
-          decision_id: appState.activeDecisionId,
+        const payload = {
           name: `${days}-day custom shift`,
-          scenario_type: 'Counterfactual',
-          description: `Custom ${days}-day simulation branch generated from Séance Dial`,
-          confidence: 0.72,
-          confidenceRange: '[69% – 75%]',
-          metrics: {
-            support: `5.4–5.8k tickets (−${Math.min(24, Math.round(days * 0.85))}%)`,
-            revenue: `$4.6–5.0M (−$0.${Math.round(days * 0.15)}M shift)`,
-            staffing: `2.6–2.9k hours (−${Math.min(16, Math.round(days * 0.55))}%)`
-          }
+          description: `Custom ${days}-day counterfactual branch; numeric model output is not connected.`,
+          variable: 'Launch delay',
+          value: `${days} calendar days`,
+          assumptions: 'Branch saved for comparison; no model run was started.'
         };
-        appState.scenarios.push(newBranch);
-        appState.selectedScenarioId = newBranchId;
-        renderBranchCards();
-        renderComparisonChart();
-        showToast(`Eldritch branch created: ${days}-day custom shift`, 'violet');
+        try {
+          showLoadingStage('Saving counterfactual branch...');
+          const created = await ApiClient.post(`/api/decisions/${encodeURIComponent(appState.activeDecisionId)}/scenarios`, payload);
+          if (!created || !created.id) throw new Error('The backend did not return a saved scenario record.');
+          created.metrics = created.metrics || {};
+          appState.scenarios.push(created);
+          appState.selectedScenarioId = created.id;
+          renderBranchCards();
+          renderComparisonChart();
+          showToast('Scenario branch saved. Prediction values remain unavailable until a model is connected.', 'success');
+        } catch (err) {
+          showToast(`Scenario branch was not saved: ${err.message}`, 'warning');
+        } finally {
+          hideLoadingStage();
+        }
       };
     }
 
@@ -1632,11 +1682,40 @@ function renderRankedTable() {
       const statusEl = document.getElementById('notesSaveStatus');
       if (statusEl) {
         statusEl.textContent = 'Saving...';
-        setTimeout(() => { statusEl.textContent = 'Autosaved'; }, 500);
+        setTimeout(() => { statusEl.textContent = 'Saved in this browser'; }, 500);
       }
     });
 
-    // Briefing Submit Approval
+    // Save human notes as a version using the existing briefing API.
+    document.getElementById('btnSaveDraftBriefing')?.addEventListener('click', async () => {
+      const notes = document.getElementById('briefingHumanNotes')?.value.trim() || '';
+      if (!notes) {
+        showToast('Add human notes before saving a briefing version.', 'warning');
+        return;
+      }
+      try {
+        showLoadingStage('Saving briefing version...');
+        const saved = await ApiClient.post('/api/briefings', {
+          decision_id: String(appState.activeDecisionId),
+          scenario_id: String(appState.selectedScenarioId),
+          human_notes: notes
+        });
+        if (!saved || !saved.id) throw new Error('The backend did not return a saved briefing record.');
+        if (window.BriefingNotesManager) {
+          window.BriefingNotesManager.createNewVersion(appState.activeDecisionId, notes, {
+            recommendation: document.getElementById('execBlockRecommendation')?.value || ''
+          });
+        }
+        renderBriefingHistory();
+        showToast('Briefing version saved to the connected backend.', 'success');
+      } catch (err) {
+        showToast(`Briefing version was not saved: ${err.message}`, 'warning');
+      } finally {
+        hideLoadingStage();
+      }
+    });
+
+    // Briefing Submit Approval — use the route intended for submission, not final approval.
     document.getElementById('btnRequestApproval')?.addEventListener('click', async () => {
       showLoadingStage('Preparing briefing package...');
       
@@ -1651,20 +1730,19 @@ function renderRankedTable() {
         uncertainty: document.getElementById('execBlockUncertainty')?.value || ''
       };
 
-      await ApiClient.postWithFallback('/api/approvals', {
-        title: 'Regional launch timing — 14-day shift',
-        actor_role: 'VP Operations',
-        action: 'requested',
-        summary: summaryObj.recommendation
-      }, { status: 'submitted' });
-
-      hideLoadingStage();
-
-      if (window.BriefingNotesManager) {
-        window.BriefingNotesManager.createNewVersion(appState.activeDecisionId, draft.notes, summaryObj);
+      try {
+        const response = await ApiClient.post('/api/briefings/demo/submit', {});
+        if (!response || response.action !== 'requested') throw new Error('The backend did not confirm an approval request.');
+        if (window.BriefingNotesManager) {
+          window.BriefingNotesManager.createNewVersion(appState.activeDecisionId, draft.notes, summaryObj);
+        }
+        renderBriefingHistory();
+        showToast('Approval request recorded by the existing demo submission route. Verify the linked record; this route does not submit the current editor contents.', 'success');
+      } catch (err) {
+        showToast(`Approval request was not recorded: ${err.message}`, 'warning');
+      } finally {
+        hideLoadingStage();
       }
-      renderBriefingHistory();
-      showToast('Decision brief submitted for VP Ops & CFO authorization', 'success');
     });
 
     // Briefing "Create Briefing Document" modal

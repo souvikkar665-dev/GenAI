@@ -1525,7 +1525,7 @@ body::before {
 /* ── Extracted Structured Fields HUD Ribbon ── */
 .extracted-fields-bar {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   margin-top: 18px;
   padding: 14px 16px;

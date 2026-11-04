@@ -954,22 +954,10 @@
             <!-- Extracted Structured Fields HUD Ribbon -->
             <div class="extracted-fields-bar">
               <div class="extracted-field-group">
-                <label for="extractedTitle">Proposed Title</label>
-                <input type="text" id="extractedTitle" class="extracted-field-input"
-                  value="Regional launch timing — Northstar West">
-              </div>
+                <label for="extractedTitle">Proposed Title</l
               <div class="extracted-field-group">
-                <label for="extractedBaseline">Baseline Period</label>
-                <input type="text" id="extractedBaseline" class="extracted-field-input"
-                  value="14 Oct 2026 – 14 Dec 2026">
-              </div>
-              <div class="extracted-field-group">
-                <label for="extractedOwner">Decision Owner</label>
-                <input type="text" id="extractedOwner" class="extracted-field-input" value="Alex Morgan">
-              </div>
-              <div class="extracted-field-group">
-                <label for="extractedTargetDate">Target Date</label>
-                <input type="text" id="extractedTargetDate" class="extracted-field-input" value="15 Nov 2026">
+                <label for="inputMetrics">Metrics (comma-separated)</label>
+                <input type="text" id="inputMetrics" class="extracted-field-input" value="Revenue, Support volume, Staffing load, Customer satisfaction">
               </div>
             </div>
           </div>
@@ -1652,7 +1640,7 @@
               <div
                 style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--bone-white);">
                 Executive Rationale &amp; Stakeholder Sign-Off Notes</div>
-              <span style="font-size:11px; color:var(--smoke);" id="notesSaveStatus">Autosaved</span>
+              <span style="font-size:11px; color:var(--smoke);" id="notesSaveStatus">Browser draft</span>
             </div>
             <textarea id="briefingHumanNotes" class="boardroom-textarea" style="min-height:80px;"
               placeholder="Add executive notes, caveats, or committee feedback here...">Customer Operations confirmed training modules complete Nov 08. Finance approved Q1 revenue timing variance buffer of $0.2M.</textarea>
@@ -1881,6 +1869,66 @@
   <!-- ======================================================================
        MOBILE BOTTOM NAVIGATION BAR (Strict Responsive Rule for 390px)
        ====================================================================== -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="#home" class="mobile-nav-item active" data-route="home">
+      <span>01</span>
+      <span>Home</span>
+    </a>
+    <a href="#studio" class="mobile-nav-item" data-route="studio">
+      <span>02</span>
+      <span>Studio</span>
+    </a>
+    <a href="#lab" class="mobile-nav-item" data-route="lab">
+      <span>03</span>
+      <span>Lab</span>
+    </a>
+    <a href="#impact" class="mobile-nav-item" data-route="impact">
+      <span>04</span>
+      <span>Impact</span>
+    </a>
+    <a href="#briefing" class="mobile-nav-item" data-route="briefing">
+      <span>05</span>
+      <span>Brief</span>
+    </a>
+  </nav>
+
+  <!-- Dual-mode Resilient Script Loader (Works on Python root server, Live Server, and file:// protocol) -->
+  <script>
+    (function () {
+      var isDirectFrontend = (window.location.protocol === 'file:' || window.location.pathname.includes('/frontend/'));
+      var prefix = isDirectFrontend ? '' : '/frontend/';
+
+      var scripts = ['briefing-notes.js', 'data-actions.js', 'app.js'];
+      var loaded = 0;
+
+      function loadNext() {
+        if (loaded >= scripts.length) return;
+        var name = scripts[loaded];
+        var s = document.createElement('script');
+        s.src = prefix + name;
+        s.onload = function () {
+          loaded++;
+          loadNext();
+        };
+        s.onerror = function () {
+          // If prefix + name failed, try alternate path
+          var alt = document.createElement('script');
+          alt.src = (prefix === '' ? '/frontend/' : '') + name;
+          alt.onload = function () {
+            loaded++;
+            loadNext();
+          };
+          document.body.appendChild(alt);
+        };
+        document.body.appendChild(s);
+      }
+      loadNext();
+    })();
+  </script>
+</body>
+
+</html>
+===================================== -->
   <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
     <a href="#home" class="mobile-nav-item active" data-route="home">
       <span>01</span>
