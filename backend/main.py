@@ -12,21 +12,67 @@ class Handler(BaseHTTPRequestHandler):
     def send_json(self,status,payload):
         data=json.dumps(payload,ensure_ascii=False,default=str).encode('utf-8');self.send_response(status);self.send_header('Content-Type','application/json; charset=utf-8');self.send_header('Content-Length',str(len(data)));self.send_header('Cache-Control','no-store');self.end_headers();self.wfile.write(data)
     def do_GET(self):
-        path=self.path.split('?',1)[0]
+        import urllib.parse
+        path = self.path.split('?', 1)[0]
         if path.startswith('/api/'):
-            try:status,payload=route('GET',self.path);self.send_json(status,payload)
-            except Exception as exc:logging.exception('GET API error');self.send_json(500,{'error':'The request could not be completed.','detail':str(exc) if settings.demo_mode else 'Internal server error.'})
+            try:
+                status, payload = route('GET', self.path)
+                self.send_json(status, payload)
+            except Exception as exc:
+                logging.exception('GET API error')
+                self.send_json(500, {'error': 'The request could not be completed.', 'detail': str(exc) if settings.demo_mode else 'Internal server error.'})
             return
-        if path in ('/','/index.html'):
-            target=ROOT/'frontend'/'index.html'
-        elif path=='/manus-routes.json':
-            target=ROOT/'public'/'manus-routes.json'
+
+        clean_path = urllib.parse.unquote(path).lstrip('/')
+
+        if clean_path in ('', 'index.html'):
+            target = ROOT / 'frontend' / 'index.html'
+        elif clean_path == 'manus-routes.json':
+            target = ROOT / 'public' / 'manus-routes.json'
+        elif clean_path == 'favicon.ico':
+            target = ROOT / 'frontend' / 'favicon.ico'
+            if not target.is_file():
+                self.send_response(204)
+                self.end_headers()
+                return
         elif path.startswith('/frontend/'):
-            target=ROOT/path.lstrip('/')
+            target = ROOT / clean_path
+        elif (ROOT / 'frontend' / clean_path).is_file():
+            target = ROOT / 'frontend' / clean_path
+        elif (ROOT / 'frontend' / 'videos' / clean_path).is_file():
+            target = ROOT / 'frontend' / 'videos' / clean_path
+        elif clean_path.startswith('videos/') and (ROOT / 'frontend' / clean_path).is_file():
+            target = ROOT / 'frontend' / clean_path
+        elif (ROOT / 'public' / clean_path).is_file():
+            target = ROOT / 'public' / clean_path
         else:
-            self.send_json(404,{'error':'Page or asset not found.'});return
-        if not target.resolve().is_relative_to(ROOT.resolve()) or not target.is_file():self.send_json(404,{'error':'Page or asset not found.'});return
-        data=target.read_bytes();kind=mimetypes.guess_type(str(target))[0] or 'application/octet-stream';self.send_response(200);self.send_header('Content-Type',kind+('; charset=utf-8' if kind.startswith(('text/','application/javascript','application/json')) else ''));self.send_header('Content-Length',str(len(data)));self.send_header('Cache-Control','no-cache');self.end_headers();self.wfile.write(data)
+            self.send_json(404, {'error': 'Page or asset not found.'})
+            return
+
+        if not target or not target.resolve().is_relative_to(ROOT.resolve()) or not target.is_file():
+            self.send_json(404, {'error': 'Page or asset not found.'})
+            return
+
+        data = target.read_bytes()
+        kind = mimetypes.guess_type(str(target))[0] or 'application/octet-stream'
+        if target.suffix == '.ttf':
+            kind = 'font/ttf'
+        elif target.suffix == '.otf':
+            kind = 'font/otf'
+        elif target.suffix == '.woff':
+            kind = 'font/woff'
+        elif target.suffix == '.woff2':
+            kind = 'font/woff2'
+        elif target.suffix == '.ico':
+            kind = 'image/x-icon'
+
+        self.send_response(200)
+        self.send_header('Content-Type', kind + ('; charset=utf-8' if kind.startswith(('text/', 'application/javascript', 'application/json')) else ''))
+        self.send_header('Content-Length', str(len(data)))
+        self.send_header('Cache-Control', 'no-cache')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        self.wfile.write(data)
     def do_POST(self):
         if not self.path.startswith('/api/'):self.send_json(404,{'error':'Route not found.'});return
         try:

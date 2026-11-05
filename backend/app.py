@@ -3,7 +3,9 @@
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 from backend.api.routes import route
 from backend.models.requests import (
@@ -123,3 +125,28 @@ def decide_approval(payload: ApprovalCreate):
 @app.get("/api/audit")
 def list_audit():
     return call_route("GET", "/api/audit")
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+# Static files for frontend assets
+if (ROOT / "frontend").is_dir():
+    app.mount("/frontend", StaticFiles(directory=str(ROOT / "frontend")), name="frontend")
+    if (ROOT / "frontend" / "videos").is_dir():
+        app.mount("/videos", StaticFiles(directory=str(ROOT / "frontend" / "videos")), name="videos")
+
+@app.get("/favicon.ico")
+def serve_favicon():
+    fav = ROOT / "frontend" / "favicon.ico"
+    if fav.is_file():
+        return FileResponse(fav, media_type="image/x-icon")
+    return Response(status_code=204)
+
+
+@app.get("/")
+def serve_index():
+    return FileResponse(ROOT / "frontend" / "index.html")
+
+# Root fallback mount for /styles.css, /app.js, /favicon.ico, fonts, etc.
+if (ROOT / "frontend").is_dir():
+    app.mount("/", StaticFiles(directory=str(ROOT / "frontend"), html=True), name="root_frontend")
