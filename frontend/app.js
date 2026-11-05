@@ -1286,13 +1286,15 @@ function renderRankedTable() {
 
     let html = '';
     history.forEach(item => {
+      const isReview = item.status.toLowerCase().includes('review');
+      const pillClass = isReview ? 'status-pill-violet' : 'status-pill-smoke';
       html += `
         <div class="history-item">
           <div>
-            <div style="font-weight:600; color:var(--bone-white);">v${item.version} · ${item.scenario}</div>
-            <div style="font-size:10.5px; color:var(--smoke);">${item.date} by ${item.author}</div>
+            <div style="font-weight:700; color:var(--bone-white);">v${item.version} · ${item.scenario}</div>
+            <div style="font-size:10.5px; color:var(--smoke); margin-top:2px;">${item.date} by ${item.author}</div>
           </div>
-          <span class="status-pill status-pill-smoke">${item.status}</span>
+          <span class="status-pill ${pillClass}">${item.status}</span>
         </div>
       `;
     });

@@ -1,11 +1,12 @@
 
+
 """FastAPI application for the Counterfactual Boardroom."""
 
 from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from backend.api.routes import route
@@ -26,16 +27,28 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Project and frontend directories
 ROOT = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = ROOT / "frontend"
 
-# Serve frontend assets such as CSS, JavaScript, fonts and images.
-app.mount(
-    "/frontend",
-    StaticFiles(directory=str(FRONTEND_DIR)),
-    name="frontend",
-)
+
+# -------------------------------------------------------------------
+# Frontend static assets
+# -------------------------------------------------------------------
+
+if FRONTEND_DIR.is_dir():
+    app.mount(
+        "/frontend",
+        StaticFiles(directory=str(FRONTEND_DIR)),
+        name="frontend",
+    )
+
+    videos_dir = FRONTEND_DIR / "videos"
+    if videos_dir.is_dir():
+        app.mount(
+            "/videos",
+            StaticFiles(directory=str(videos_dir)),
+            name="videos",
+        )
 
 
 # -------------------------------------------------------------------
@@ -45,6 +58,19 @@ app.mount(
 @app.get("/", include_in_schema=False)
 def serve_frontend():
     return FileResponse(FRONTEND_DIR / "index.html")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def serve_favicon():
+    favicon = FRONTEND_DIR / "favicon.ico"
+
+    if favicon.is_file():
+        return FileResponse(
+            favicon,
+            media_type="image/x-icon",
+        )
+
+    return Response(status_code=204)
 
 
 # -------------------------------------------------------------------
@@ -197,3 +223,17 @@ def decide_approval(payload: ApprovalCreate):
 @app.get("/api/audit")
 def list_audit():
     return call_route("GET", "/api/audit")
+
+
+# -------------------------------------------------------------------
+# Root static asset fallback
+# Supports /styles.css, /app.js, fonts and other root-level assets.
+# Keep this LAST so API routes take priority.
+# -------------------------------------------------------------------
+
+if FRONTEND_DIR.is_dir():
+    app.mount(
+        "/",
+        StaticFiles(directory=str(FRONTEND_DIR), html=True),
+        name="root_frontend",
+    )
