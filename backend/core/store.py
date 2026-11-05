@@ -14,11 +14,13 @@ class MemoryStore:
     def decisions(self):
         return deepcopy(self.state['decisions'])
 
+    
     def decision(self, decision_id):
         for row in self.state['decisions']:
             if row['id'] == decision_id:
                 return deepcopy(row)
         return None
+
 
     def scenarios(self):
         return deepcopy(self.state['scenarios'])

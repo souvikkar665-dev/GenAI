@@ -1,9 +1,12 @@
 
-"""FastAPI application for the backend API."""
+"""FastAPI application for the Counterfactual Boardroom."""
+
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from backend.api.routes import route
 from backend.models.requests import (
@@ -13,31 +16,68 @@ from backend.models.requests import (
     BriefingCreate,
 )
 
+
+# -------------------------------------------------------------------
+# Application setup
+# -------------------------------------------------------------------
+
 app = FastAPI(
     title="Counterfactual Boardroom API",
     version="1.0.0",
 )
 
+# Project and frontend directories
+ROOT = Path(__file__).resolve().parent.parent
+FRONTEND_DIR = ROOT / "frontend"
+
+# Serve frontend assets such as CSS, JavaScript, fonts and images.
+app.mount(
+    "/frontend",
+    StaticFiles(directory=str(FRONTEND_DIR)),
+    name="frontend",
+)
+
+
+# -------------------------------------------------------------------
+# Frontend homepage
+# -------------------------------------------------------------------
+
+@app.get("/", include_in_schema=False)
+def serve_frontend():
+    return FileResponse(FRONTEND_DIR / "index.html")
+
+
+# -------------------------------------------------------------------
+# Existing API route integration
+# -------------------------------------------------------------------
 
 def call_route(method, path, body=None):
     """Connect FastAPI endpoints to the existing application router."""
+
     try:
         status_code, payload = route(method, path, body)
+
         return JSONResponse(
             status_code=status_code,
             content=jsonable_encoder(payload),
         )
+
     except PermissionError as exc:
         return JSONResponse(
             status_code=403,
             content={"error": str(exc)},
         )
+
     except ValueError as exc:
         return JSONResponse(
             status_code=400,
             content={"error": str(exc)},
         )
 
+
+# -------------------------------------------------------------------
+# Health and portfolio
+# -------------------------------------------------------------------
 
 @app.get("/api/health")
 def health():
@@ -48,6 +88,10 @@ def health():
 def portfolio():
     return call_route("GET", "/api/portfolio")
 
+
+# -------------------------------------------------------------------
+# Decisions
+# -------------------------------------------------------------------
 
 @app.get("/api/decisions")
 def list_decisions():
@@ -65,8 +109,15 @@ def create_decision(payload: DecisionCreate):
 
 @app.get("/api/decisions/{decision_id}")
 def get_decision(decision_id: str):
-    return call_route("GET", f"/api/decisions/{decision_id}")
+    return call_route(
+        "GET",
+        f"/api/decisions/{decision_id}",
+    )
 
+
+# -------------------------------------------------------------------
+# Scenarios
+# -------------------------------------------------------------------
 
 @app.get("/api/scenarios")
 def list_scenarios():
@@ -74,7 +125,10 @@ def list_scenarios():
 
 
 @app.post("/api/decisions/{decision_id}/scenarios")
-def create_scenario(decision_id: str, payload: ScenarioCreate):
+def create_scenario(
+    decision_id: str,
+    payload: ScenarioCreate,
+):
     return call_route(
         "POST",
         f"/api/decisions/{decision_id}/scenarios",
@@ -82,10 +136,18 @@ def create_scenario(decision_id: str, payload: ScenarioCreate):
     )
 
 
+# -------------------------------------------------------------------
+# Impacts
+# -------------------------------------------------------------------
+
 @app.get("/api/impacts")
 def list_impacts():
     return call_route("GET", "/api/impacts")
 
+
+# -------------------------------------------------------------------
+# Briefings
+# -------------------------------------------------------------------
 
 @app.get("/api/briefings")
 def list_briefings():
@@ -103,8 +165,16 @@ def create_briefing(payload: BriefingCreate):
 
 @app.post("/api/briefings/demo/submit")
 def submit_briefing():
-    return call_route("POST", "/api/briefings/demo/submit", {})
+    return call_route(
+        "POST",
+        "/api/briefings/demo/submit",
+        {},
+    )
 
+
+# -------------------------------------------------------------------
+# Approvals
+# -------------------------------------------------------------------
 
 @app.get("/api/approvals")
 def list_approvals():
@@ -119,6 +189,10 @@ def decide_approval(payload: ApprovalCreate):
         payload.model_dump(),
     )
 
+
+# -------------------------------------------------------------------
+# Audit
+# -------------------------------------------------------------------
 
 @app.get("/api/audit")
 def list_audit():

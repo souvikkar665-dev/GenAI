@@ -3,67 +3,19 @@
    Topic 08 / Halloween Event Decision Simulator
    ========================================================================== */
 
+/* Halloween font */
 @font-face {
   font-family: 'The Halloween';
-  src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('The Halloween - Personal Use.ttf') format('truetype'),
-    url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
+  src: url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'TheHalloween';
-  src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('The Halloween - Personal Use.ttf') format('truetype'),
-    url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'the halloween';
-  src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('The Halloween - Personal Use.ttf') format('truetype'),
-    url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'The Halloween - Personal Use';
-  src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('The Halloween - Personal Use.ttf') format('truetype'),
-    url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Frightmare font */
 @font-face {
   font-family: 'Frightmare Demo';
-  src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('The Halloween - Personal Use.ttf') format('truetype'),
-    url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FrightmareDemo';
-  src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('The Halloween - Personal Use.ttf') format('truetype'),
-    url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-    url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
+  src: url('/frontend/Frightmare-Demo.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -3560,7 +3512,7 @@ body::before {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  background: #0B1013 url('videos/frame_monster.jpg') center right / cover no-repeat;
+  background: #0B1013 url('/frontend/videos/frame_monster.jpg') center right / cover no-repeat;
 }
 
 .bg-video {

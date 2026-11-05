@@ -8,8 +8,6 @@
   <meta name="description"
     content="A premium Halloween-themed decision simulator that turns 'What if?' into visible scenario branches, assumptions, uncertainty, and an executive-ready decision brief.">
 
-  <!-- Dual Stylesheet linking to guarantee loading on both Python server and direct file/Live-server access -->
-  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="/frontend/styles.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,70 +19,20 @@
   <!-- The Halloween Spooky Global Typography -->
   <style>
     @font-face {
-      font-family: 'The Halloween';
-      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('The Halloween - Personal Use.ttf') format('truetype'),
-        url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
+  font-family: 'The Halloween';
+  src: url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
-    @font-face {
-      font-family: 'TheHalloween';
-      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('The Halloween - Personal Use.ttf') format('truetype'),
-        url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'the halloween';
-      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('The Halloween - Personal Use.ttf') format('truetype'),
-        url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'The Halloween - Personal Use';
-      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('The Halloween - Personal Use.ttf') format('truetype'),
-        url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'Frightmare Demo';
-      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('The Halloween - Personal Use.ttf') format('truetype'),
-        url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'FrightmareDemo';
-      src: url('The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('The Halloween - Personal Use.ttf') format('truetype'),
-        url('/frontend/The%20Halloween%20-%20Personal%20Use.ttf') format('truetype'),
-        url('/frontend/The Halloween - Personal Use.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
+@font-face {
+  font-family: 'Frightmare Demo';
+  src: url('/frontend/Frightmare-Demo.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
     /* Universal The Halloween Application & Maximum Breathable Spacing */
     *,
@@ -563,7 +511,7 @@
                 data-video="Creatures_moving_in_haunted_forest_992f5255.mp4" data-title="THE GHOST IN THE SYSTEM"
                 role="button" tabindex="0">
                 <div class="preview-thumb-box mini-thumb">
-                  <img src="videos/frame_ghost.jpg" alt="Ghost In The System" class="preview-thumb-img">
+                  <img src="/frontend/videos/frame_ghost.jpg" alt="Ghost In The System" class="preview-thumb-img">
                   <div class="preview-play-icon">▶</div>
                 </div>
                 <div class="preview-card-title">#1: THE GHOST IN THE SYSTEM</div>
@@ -573,7 +521,7 @@
                 data-video="Supernatural_forest_horror_cinema_49736ee5.mp4" data-title="THE SPECTRAL TAKEOVER"
                 role="button" tabindex="0">
                 <div class="preview-thumb-box mini-thumb">
-                  <img src="videos/frame_spectral.jpg" alt="Spectral Takeover" class="preview-thumb-img">
+                  <img src="/frontend/videos/frame_spectral.jpg" alt="Spectral Takeover" class="preview-thumb-img">
                   <div class="preview-play-icon">▶</div>
                 </div>
                 <div class="preview-card-title">#2: THE SPECTRAL TAKEOVER</div>
@@ -693,7 +641,7 @@
               data-video="Creatures_moving_in_haunted_forest_992f5255.mp4" data-title="THE GHOST IN THE SYSTEM"
               role="button" tabindex="0" title="Switch visual atmosphere to The Ghost in the System">
               <div class="preview-thumb-box">
-                <img src="videos/frame_ghost.jpg" alt="The Ghost In The System" class="preview-thumb-img">
+                <img src="/frontend/videos/frame_ghost.jpg" alt="The Ghost In The System" class="preview-thumb-img">
                 <div class="preview-play-icon">▶</div>
               </div>
               <div class="preview-card-title">#1: THE GHOST IN THE SYSTEM</div>
